@@ -723,6 +723,13 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
+			List<String> fabricantesAlfabetico = listProd.stream()
+					.sorted((a, b) -> a.getFabricante().getNombre().compareToIgnoreCase(b.getFabricante().getNombre()))
+					.map(p -> p.getNombre() +" "+ p.getPrecio() +" "+ p.getFabricante().getNombre())
+					.toList();
+			fabricantesAlfabetico.forEach(System.out::println);
+
+
 
 		}
 		catch (RuntimeException e) {
@@ -744,7 +751,10 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			System.out.println(listProd.stream()
+					.max(Comparator.comparing(Producto::getPrecio))
+					.map(p -> p.getNombre() +" "+ p.getPrecio() +" "+ p.getFabricante().getNombre())
+					.toString());
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -764,8 +774,11 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
-		}
+			List<Producto> crucial200 = listProd.stream()
+					.filter(p -> "Crucial".equals(p.getFabricante().getNombre())&&p.getPrecio()>200)
+					.toList();
+			crucial200.forEach(System.out::println);
+        }
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
 		    throw e; // or display error message
@@ -784,7 +797,12 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			List<Producto> asuHewSea = listProd.stream()
+					.filter(p-> "Asus".equals(p.getFabricante().getNombre())
+							||"Hewlett-Packard".equals(p.getFabricante().getNombre())
+							||"Seagate".equals(p.getFabricante().getNombre()))
+					.toList();
+			asuHewSea.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -804,7 +822,6 @@ GeForce GTX 1080 Xtreme|611.5500000000001 |Crucial
 Portátil Yoga 520      |452.79            |Lenovo
 Portátil Ideapd 320    |359.64000000000004|Lenovo
 Monitor 27 LED Full HD |199.25190000000003|Asus
-
 	 */		
 	@Test
 	void test27() {
@@ -815,6 +832,7 @@ Monitor 27 LED Full HD |199.25190000000003|Asus
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
+
 
 		}
 		catch (RuntimeException e) {
@@ -906,7 +924,10 @@ Fabricante: Xiaomi
 			List<Fabricante> listFab = fabricantesDAO.findAll();
 
 			//TODO STREAMS
-
+		List<Fabricante> sinProductos = listFab.stream()
+				.filter(p -> p.getProductos().isEmpty() )
+				.toList();
+		sinProductos.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((FabricanteDAOImpl)fabricantesDAO).rollbackTransaction();
@@ -926,7 +947,8 @@ Fabricante: Xiaomi
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			System.out.println( "hay un total de: "+listProd.stream()
+					.count());
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -968,8 +990,11 @@ Fabricante: Xiaomi
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
+			System.out.println(listProd.stream()
+					.mapToDouble(Producto::getPrecio)
+					.average());
 
-		}
+        }
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
 		    throw e; // or display error message
@@ -988,7 +1013,9 @@ Fabricante: Xiaomi
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			System.out.println(listProd.stream()
+					.mapToDouble(Producto::getPrecio)
+					.min());
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -1008,7 +1035,9 @@ Fabricante: Xiaomi
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			System.out.println(listProd.stream()
+					.mapToDouble(Producto::getPrecio)
+					.sum());
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -1028,6 +1057,10 @@ Fabricante: Xiaomi
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
+			System.out.println(listProd.stream()
+							.filter(p-> "Asus".equals(p.getFabricante().getNombre()))
+					.count()
+			);
 
 		}
 		catch (RuntimeException e) {
@@ -1170,6 +1203,13 @@ Hewlett-Packard              2
 			List<Fabricante> listFab = fabricantesDAO.findAll();
 
 			//TODO STREAMS
+			List<String> con2 = listFab.stream()
+					.filter(fab -> fab.getProductos().size()>=2)
+					.map(Fabricante::getNombre)
+					.toList();
+			con2.forEach(System.out::println);
+
+
 
 		}
 		catch (RuntimeException e) {
