@@ -699,7 +699,10 @@ class TiendaTest {
 
 			//TODO STREAMS
 			listProd.stream()
-					.filter()
+					.filter(p-> p.getPrecio()>=180)
+					.sorted(comparing(Producto::getNombre))
+					.sorted(comparing(Producto::getPrecio).reversed())
+					.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
