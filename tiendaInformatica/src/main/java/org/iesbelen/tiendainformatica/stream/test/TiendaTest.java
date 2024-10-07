@@ -201,6 +201,7 @@ class TiendaTest {
 
 			listProd = productosDAO.findAll();
 			System.out.println(listProd);
+
 			//TODO STREAMS
 		List<Producto> productoDolar = listProd.stream()
 				.map(e-> {
@@ -208,13 +209,14 @@ class TiendaTest {
 							return e;
 				})
 				.collect(toList());
+			productoDolar.forEach(System.out::println);
 		}
 
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
 			throw e; // or display error message
 		}
-		System.out.println(listProd);
+
 
 	}
 	
@@ -230,7 +232,8 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-			listProd.forEach(p-> System.out.println("nombre: "+p.getNombre().toUpperCase()+" precio: "+p.getPrecio()));
+			listProd.stream()
+					.forEach(p-> System.out.println("nombre: "+p.getNombre().toUpperCase()+" precio: "+p.getPrecio()));
 
 		}
 		catch (RuntimeException e) {
@@ -271,6 +274,16 @@ class TiendaTest {
 			List<Fabricante> listFab = fabricantesDAO.findAll();
 			List<Producto> listProd = productosDAO.findAll();
 			//TODO STREAMS
+			//version simple
+			listFab.stream()
+							.filter(fab -> !fab.getProductos().isEmpty())
+					.forEach(fab -> {
+						System.out.println("Id fabr: " + fab.getIdFabricante());
+					});
+			System.out.println();
+
+	// version compleja
+
 			listFab.stream()
 					.filter(fab -> listProd.stream().anyMatch(prod -> prod.getFabricante().getIdFabricante().equals(fab.getIdFabricante())))
 					.forEach(fab -> {
@@ -296,8 +309,18 @@ class TiendaTest {
 			List<Fabricante> listFab = fabricantesDAO.findAll();
 
 			//TODO STREAMS
+			listFab.stream() //da iguale l orden, y así es mas claro
+					.sorted(Comparator.comparing(Fabricante::getNombre))
+					.forEach(p -> System.out.println(p.getNombre()));
 
+
+	listFab.stream()
+			.sorted(comparing(Fabricante::getNombre))
+			.forEach(fab -> {
+				System.out.println( "nombre: "+fab.getNombre());
+			});
 		}
+
 		catch (RuntimeException e) {
 			((FabricanteDAOImpl)fabricantesDAO).rollbackTransaction();
 		    throw e; // or display error message
@@ -305,7 +328,8 @@ class TiendaTest {
 	}
 	
 	/**
-	 * 7. Lista los nombres de los productosDAOImpl ordenados en primer lugar por el nombre de forma ascendente y en segundo lugar por el precio de forma descendente.
+	 * 7. Lista los nombres de los productosDAOImpl ordenados en primer lugar por el nombre
+	 * de forma ascendente y en segundo lugar por el precio de forma descendente.
 	 */
 	@Test
 	void test7() {
@@ -316,7 +340,12 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			listProd.stream()
+					.sorted(comparing(Producto::getPrecio).reversed())
+					.sorted(comparing(Producto::getNombre))
+					.forEach( p -> {
+						System.out.println("nombre "+ p.getNombre()+ "precio"+ p.getPrecio());
+					});
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -336,7 +365,10 @@ class TiendaTest {
 			List<Fabricante> listFab = fabricantesDAO.findAll();
 
 			//TODO STREAMS
-
+			List<Fabricante> primerosCinco = listFab.stream()
+					.limit(5)
+					.collect(toList());
+			primerosCinco.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((FabricanteDAOImpl)fabricantesDAO).rollbackTransaction();
@@ -345,7 +377,8 @@ class TiendaTest {
 	}
 	
 	/**
-	 * 9.Devuelve una lista con 2 fabricantes a partir del cuarto fabricante. El cuarto fabricante también se debe incluir en la respuesta.
+	 * 9.Devuelve una lista con 2 fabricantes a partir del cuarto fabricante
+	 * . El cuarto fabricante también se debe incluir en la respuesta.
 	 */
 	@Test
 	void test9() {
@@ -356,6 +389,11 @@ class TiendaTest {
 			List<Fabricante> listFab = fabricantesDAO.findAll();
 
 			//TODO STREAMS
+			List<Fabricante> dosFab = listFab.stream()
+					.filter(f->(listFab.indexOf(f)>=3))
+					.limit(2)
+					.collect(toList());
+			System.out.println(dosFab);
 
 		}
 		catch (RuntimeException e) {
@@ -377,6 +415,11 @@ class TiendaTest {
 
 			//TODO STREAMS
 
+			listProd.stream().min(comparing(Producto::getPrecio))
+					.ifPresent(p -> {
+						System.out.println("nombre:" + p.getNombre() + " precio:" + p.getPrecio());
+					});
+
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -396,7 +439,12 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			listProd.stream()
+					.sorted(comparing(Producto::getPrecio).reversed())
+					.findFirst()
+					.ifPresent(p -> {
+						System.out.println("nombre:" + p.getNombre() + " precio:" + p.getPrecio());
+					});
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -417,7 +465,11 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+	listProd.stream()
+			.filter(p-> p.getFabricante().getIdFabricante()==2)
+			.forEach(p-> {
+				System.out.println("nombre:" + p.getNombre() + " fabricante: " + p.getFabricante().getNombre());
+			});
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -437,7 +489,11 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			listProd.stream()
+					.filter(p-> p.getPrecio()<=120)
+					.forEach(p-> {
+						System.out.println("nombre: " + p.getNombre() + " precio:" + p.getPrecio());
+					});
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -457,7 +513,9 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			listProd.stream()
+					.filter(p-> p.getPrecio()>=400)
+					.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -477,7 +535,9 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			listProd.stream()
+					.filter(p-> (p.getPrecio()>=80)&&(p.getPrecio()<=300))
+					.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -497,7 +557,9 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			listProd.stream()
+					.filter(p-> (p.getPrecio()<200)&&(p.getFabricante().getIdFabricante()==6))
+					.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -517,7 +579,11 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
+	Set<Producto> setProductos =listProd.stream()
+			.filter(p-> p.getFabricante().getIdFabricante()%2==1&&p.getFabricante().getIdFabricante()<=5)
+			.collect(toSet());
 
+			setProductos.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -532,12 +598,14 @@ class TiendaTest {
 	void test18() {
 
 		try {
-			((ProductoDAOImpl)productosDAO).beginTransaction();
+			((ProductoDAOImpl) productosDAO).beginTransaction();
 
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			listProd.stream()
+					.map(p -> p.getNombre() + " " + p.getPrecio() * 100 +"cents")
+					.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -558,7 +626,9 @@ class TiendaTest {
 			List<Fabricante> listFab = fabricantesDAO.findAll();
 
 			//TODO STREAMS
-
+		listFab.stream()
+				.filter(fab ->'S'==fab.getNombre().toUpperCase().charAt(0))
+				.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((FabricanteDAOImpl)fabricantesDAO).rollbackTransaction();
@@ -579,7 +649,10 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			List<Producto> portatiles = listProd.stream()
+					.filter(p-> p.getNombre().contains("Portátil"))
+					.toList();
+			portatiles.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -588,7 +661,8 @@ class TiendaTest {
 	}
 	
 	/**
-	 * 21. Devuelve una lista con el nombre de todos los productos que contienen la cadena Monitor en el nombre y tienen un precio inferior a 215 €.
+	 * 21. Devuelve una lista con el nombre de todos los productos que
+	 * contienen la cadena Monitor en el nombre y tienen un precio inferior a 215 €.
 	 */
 	@Test
 	void test21() {
@@ -599,7 +673,10 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+		List<Producto> monitoresBaratos = listProd.stream()
+				.filter(p-> p.getNombre().contains("Monitor")&& p.getPrecio()<215)
+				.toList();
+		monitoresBaratos.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -609,7 +686,8 @@ class TiendaTest {
 	
 	/**
 	 * 22. Lista el nombre y el precio de todos los productos que tengan un precio mayor o igual a 180€.
-	 * Ordene el resultado en primer lugar por el precio (en orden descendente) y en segundo lugar por el nombre (en orden ascendente).
+	 * Ordene el resultado en primer lugar por el precio (en orden descendente)
+	 * y en segundo lugar por el nombre (en orden ascendente).
 	 */
 	@Test
 	void test22() {
@@ -620,7 +698,8 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			listProd.stream()
+					.filter()
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
