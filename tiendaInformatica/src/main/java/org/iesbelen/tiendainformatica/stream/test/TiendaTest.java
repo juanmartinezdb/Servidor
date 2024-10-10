@@ -876,10 +876,6 @@ Monitor 27 LED Full HD |199.25190000000003|Asus
 	}
 	
 	/**
-	 * 28. Devuelve un listado de los nombres fabricantes que existen en la base de datos, junto con los nombres productos que tiene cada uno de ellos.
-	 * El listado deberá mostrar también aquellos fabricantes que no tienen productos asociados.
-	 * SÓLO SE PUEDEN UTILIZAR STREAM, NO PUEDE HABER BUCLES
-	 * La salida debe queda como sigue:
 Fabricante: Asus
 
             	Productos:
@@ -927,7 +923,11 @@ Fabricante: Huawei
 Fabricante: Xiaomi
 
             	Productos:
-
+	 * 28. Devuelve un listado de los nombres fabricantes que existen en la base de datos,
+	 * junto con los nombres productos que tiene cada uno de ellos.
+	 * El listado deberá mostrar también aquellos fabricantes que no tienen productos asociados.
+	 * SÓLO SE PUEDEN UTILIZAR STREAM, NO PUEDE HABER BUCLES
+	 * La salida debe queda como sigue:
 	 */
 	@Test
 	void test28() {
@@ -936,8 +936,8 @@ Fabricante: Xiaomi
 			((FabricanteDAOImpl)fabricantesDAO).beginTransaction();
 
 			List<Fabricante> listFab = fabricantesDAO.findAll();
-
 			//TODO STREAMS
+
 
 		}
 		catch (RuntimeException e) {
@@ -1003,6 +1003,11 @@ Fabricante: Xiaomi
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
+			int fabricantes = (int) listProd.stream()
+					.map(Producto::getFabricante)
+					.count();
+			System.out.println(fabricantes);
+
 
 		}
 		catch (RuntimeException e) {
@@ -1025,7 +1030,7 @@ Fabricante: Xiaomi
 
 			//TODO STREAMS
 			System.out.println(listProd.stream()
-					.mapToDouble(Producto::getPrecio)
+					.mapToDouble(Producto::getPrecio) //lo va recogiendo en double
 					.average());
 
         }
@@ -1115,7 +1120,11 @@ Fabricante: Xiaomi
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			OptionalDouble media = listProd.stream()
+					.filter(p-> p.getFabricante().getNombre().equals("Asus"))
+					.mapToDouble(Producto::getPrecio)
+					.average();
+			System.out.println(media);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -1125,7 +1134,8 @@ Fabricante: Xiaomi
 	
 	
 	/**
-	 * 37. Muestra el precio máximo, precio mínimo, precio medio y el número total de productos que tiene el fabricante Crucial.
+	 * 37. Muestra el precio máximo, precio mínimo, precio medio y el número
+	 * total de productos que tiene el fabricante Crucial.
 	 *  Realízalo en 1 solo stream principal. Utiliza reduce con Double[] como "acumulador".
 	 */
 	@Test
@@ -1137,7 +1147,10 @@ Fabricante: Xiaomi
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-
+			DoubleSummaryStatistics crucial = listProd.stream()
+					.filter(p -> p.getFabricante().getNombre().equals("Crucial"))
+					.collect(summarizingDouble(Producto::getPrecio));
+			System.out.println(crucial);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -1184,7 +1197,8 @@ Hewlett-Packard              2
 	
 	/**
 	 * 39. Muestra el precio máximo, precio mínimo y precio medio de los productos de cada uno de los fabricantes.
-	 * El resultado mostrará el nombre del fabricante junto con los datos que se solicitan. Realízalo en 1 solo stream principal. Utiliza reduce con Double[] como "acumulador".
+	 * El resultado mostrará el nombre del fabricante junto con los datos que se solicitan.
+	 * Realízalo en 1 solo stream principal. Utiliza reduce con Double[] como "acumulador".
 	 * Deben aparecer los fabricantes que no tienen productosDAOImpl.
 	 */
 	@Test
@@ -1196,7 +1210,8 @@ Hewlett-Packard              2
 			List<Fabricante> listFab = fabricantesDAO.findAll();
 
 			//TODO STREAMS
-
+			listFab.stream()
+					.collect(groupingBy(Fabricante::getIdFabricante).summarizingDouble(Producto::getPrecio);
 		}
 		catch (RuntimeException e) {
 			((FabricanteDAOImpl)fabricantesDAO).rollbackTransaction();
