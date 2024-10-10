@@ -310,15 +310,16 @@ class TiendaTest {
 
 			//TODO STREAMS
 			listFab.stream() //da iguale l orden, y así es mas claro
-					.sorted(Comparator.comparing(Fabricante::getNombre))
+					.sorted(comparing(Fabricante::getNombre))
 					.forEach(p -> System.out.println(p.getNombre()));
 
 
+			//version corregida
 	listFab.stream()
-			.sorted(comparing(Fabricante::getNombre))
-			.forEach(fab -> {
-				System.out.println( "nombre: "+fab.getNombre());
-			});
+			.map(Fabricante::getNombre)
+			.sorted(Comparator.reverseOrder())
+			.forEach(System.out::println);
+
 		}
 
 		catch (RuntimeException e) {
@@ -343,9 +344,15 @@ class TiendaTest {
 			listProd.stream()
 					.sorted(comparing(Producto::getPrecio).reversed())
 					.sorted(comparing(Producto::getNombre))
-					.forEach( p -> {
-						System.out.println("nombre "+ p.getNombre()+ "precio"+ p.getPrecio());
+					.forEach(p -> {
+						System.out.println("nombre " + p.getNombre() + "precio " + p.getPrecio());
 					});
+
+			//version samuel
+			listProd.stream()
+					.sorted(comparing(Producto::getNombre)
+					.thenComparing(comparing(Producto::getPrecio).reversed()))
+					.forEach(p-> System.out.println(p.getNombre() +" "+ p.getPrecio()));
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -395,6 +402,11 @@ class TiendaTest {
 					.collect(toList());
 			System.out.println(dosFab);
 
+			// version corregida mejor con skip
+			listFab.stream()
+					.skip(3)
+					.limit(2)
+					.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((FabricanteDAOImpl)fabricantesDAO).rollbackTransaction();
@@ -415,10 +427,10 @@ class TiendaTest {
 
 			//TODO STREAMS
 
-			listProd.stream().min(comparing(Producto::getPrecio))
-					.ifPresent(p -> {
-						System.out.println("nombre:" + p.getNombre() + " precio:" + p.getPrecio());
-					});
+			//mejor esta forma
+			listProd.stream()
+					.min(comparing(Producto::getPrecio))
+					.ifPresent(p -> System.out.println("nombre:" + p.getNombre() + " precio:" + p.getPrecio()));
 
 		}
 		catch (RuntimeException e) {
@@ -584,6 +596,13 @@ class TiendaTest {
 			.collect(toSet());
 
 			setProductos.forEach(System.out::println);
+
+			//version fliper jonathan
+			Set<Integer>  codigosFabricantes = Set.of(1,3,5);
+
+			listProd.stream()
+					.filter(p -> codigosFabricantes.contains(p.getFabricante().getIdFabricante()))
+					.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -673,8 +692,9 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-		List<Producto> monitoresBaratos = listProd.stream()
+		List<String> monitoresBaratos = listProd.stream()
 				.filter(p-> p.getNombre().contains("Monitor")&& p.getPrecio()<215)
+				.map(Producto::getNombre)
 				.toList();
 		monitoresBaratos.forEach(System.out::println);
 		}
@@ -703,6 +723,13 @@ class TiendaTest {
 					.sorted(comparing(Producto::getNombre))
 					.sorted(comparing(Producto::getPrecio).reversed())
 					.forEach(System.out::println);
+
+			//version revisada
+			listProd.stream()
+					.filter(p-> p.getPrecio()>=180)
+					.sorted(comparing(Producto::getPrecio).reversed()
+							.thenComparing(Producto::getNombre))
+					.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -724,7 +751,7 @@ class TiendaTest {
 
 			//TODO STREAMS
 			List<String> fabricantesAlfabetico = listProd.stream()
-					.sorted((a, b) -> a.getFabricante().getNombre().compareToIgnoreCase(b.getFabricante().getNombre()))
+					.sorted((a, b) -> a.getFabricante().getNombre().compareTo(b.getFabricante().getNombre()))
 					.map(p -> p.getNombre() +" "+ p.getPrecio() +" "+ p.getFabricante().getNombre())
 					.toList();
 			fabricantesAlfabetico.forEach(System.out::println);
@@ -751,10 +778,11 @@ class TiendaTest {
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-			System.out.println(listProd.stream()
+			listProd.stream()
 					.max(Comparator.comparing(Producto::getPrecio))
 					.map(p -> p.getNombre() +" "+ p.getPrecio() +" "+ p.getFabricante().getNombre())
-					.toString());
+					.ifPresent(System.out::println);
+
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -803,6 +831,12 @@ class TiendaTest {
 							||"Seagate".equals(p.getFabricante().getNombre()))
 					.toList();
 			asuHewSea.forEach(System.out::println);
+
+			//Version mas limpita y clara
+			Set<String> ahs = Set.of("Asus", "Hewlett-Packard", "Seagate");
+			listProd.stream()
+					.filter(p -> ahs.contains(p.getFabricante().getNombre()))
+					.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
