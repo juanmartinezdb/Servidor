@@ -940,8 +940,8 @@ Fabricante: Xiaomi
 	listFab.stream()
 			.map(fab-> "Fabricante: "+fab.getNombre() +"\n\t Productos:\n" + fab.getProductos().stream()
 					.map(p->"\t\t"+p.getNombre())
-					.collect(joining("\n"))+"\n"
-			).forEach(System.out::println);
+					.collect(joining("\n"))+"\n")
+			.forEach(System.out::println);
 
 		}
 		catch (RuntimeException e) {
@@ -1009,6 +1009,7 @@ Fabricante: Xiaomi
 			//TODO STREAMS
 			int fabricantes = (int) listProd.stream()
 					.map(Producto::getFabricante)
+					.distinct()
 					.count();
 			System.out.println(fabricantes);
 
@@ -1056,9 +1057,13 @@ Fabricante: Xiaomi
 			List<Producto> listProd = productosDAO.findAll();
 
 			//TODO STREAMS
-			System.out.println(listProd.stream()
+			listProd.stream()
 					.mapToDouble(Producto::getPrecio)
-					.min());
+					.min().ifPresent(System.out::println);
+
+			//version profe
+
+
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -1081,7 +1086,14 @@ Fabricante: Xiaomi
 			System.out.println(listProd.stream()
 					.mapToDouble(Producto::getPrecio)
 					.sum());
+
+			//version victor
+			Double total = listProd.stream()
+					.map(Producto::getPrecio)
+					.reduce(0.0, Double::sum);
+			System.out.println(total);
 		}
+
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
 		    throw e; // or display error message
@@ -1102,8 +1114,7 @@ Fabricante: Xiaomi
 			//TODO STREAMS
 			System.out.println(listProd.stream()
 							.filter(p-> "Asus".equals(p.getFabricante().getNombre()))
-					.count()
-			);
+							.count());
 
 		}
 		catch (RuntimeException e) {
@@ -1128,7 +1139,13 @@ Fabricante: Xiaomi
 					.filter(p-> p.getFabricante().getNombre().equals("Asus"))
 					.mapToDouble(Producto::getPrecio)
 					.average();
-			System.out.println(media);
+
+			media.ifPresent(System.out::println);
+
+			//corregido
+//			listProd.stream()
+//					.filter(p-> "Asus".equals(p.getFabricante().getNombre()))
+//					.
 		}
 		catch (RuntimeException e) {
 			((ProductoDAOImpl)productosDAO).rollbackTransaction();
@@ -1168,18 +1185,20 @@ Fabricante: Xiaomi
 								acumulador[3] += 1; // Contador de productos
 								return acumulador;
 							},
-							(a1, a2) -> { //esto no lo entiendo se supone que es si se hacen operaciones en paralelo, pero no consigo ajustar esto sin esta parte
+							(a1, a2) -> a1
+							//{ esto no lo entiendo se supone que es si se hacen operaciones en paralelo, pero no consigo ajustar esto sin esta parte
 								// Combinación de dos acumuladores????
-								a1[0] = Math.max(a1[0], a2[0]);
-								a1[1] = Math.min(a1[1], a2[1]);
-								a1[2] += a2[2];
-								a1[3] += a2[3];
-								return a1;
-							});
+//								a1[0] = Math.max(a1[0], a2[0]);
+//								a1[1] = Math.min(a1[1], a2[1]);
+//								a1[2] += a2[2];
+//								a1[3] += a2[3];
+//								return a1;
+							//}
+		);
 
 			System.out.println("máximo: " + sum[0]);
 			System.out.println("mínimo: " + sum[1]);
-			System.out.println("medio: " + sum[2]);
+			System.out.println("medio: " + sum[2]/sum[3]);
 			System.out.println("Total: " + sum[3]);
 		}
 		catch (RuntimeException e) {
@@ -1219,6 +1238,7 @@ Hewlett-Packard              2
 			//TODO STREAMS
 	listFab.stream()
 			.map(fab-> fab.getNombre()+"\t" +fab.getProductos().stream().count())
+			.sorted((a,b) ->a.split("\t")[1].compareTo(b.split("\t")[1]))
 			.forEach(System.out::println);
 		}
 		catch (RuntimeException e) {
