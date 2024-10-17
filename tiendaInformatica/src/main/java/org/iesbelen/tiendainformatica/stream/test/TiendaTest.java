@@ -1262,6 +1262,25 @@ Hewlett-Packard              2
 			List<Fabricante> listFab = fabricantesDAO.findAll();
 
 			//TODO STREAMS
+
+
+			//con sumarizingDouble
+			List<String> estadisticas = listFab.stream()
+							.map(f-> {
+								DoubleSummaryStatistics esta = f.getProductos().stream().collect(summarizingDouble(Producto::getPrecio));
+								return "Fabricante: "+f.getNombre()
+										+" minimo: "+((esta.getCount()!=0)?esta.getMin():"")+
+										" max:"+((esta.getCount()!=0)?esta.getMax():"")+
+										" media:"+((esta.getCount()!=0)?esta.getAverage():"")+
+										" cantidad:"+esta.getCount();
+							}).toList();
+			estadisticas.forEach(System.out::println);
+
+//			//Retry
+//			DoubleSummaryStatistics estadisticcas = listFab.stream()
+//							.flatMap(f-> f.getProductos().stream()).collect(summarizingDouble(Producto::getPrecio));
+
+			//la de antes
 	listFab.stream()
 			.map(fab-> fab.getNombre()+"\t" +
 					Arrays.toString(fab.getProductos().stream().map(Producto::getPrecio)
@@ -1370,6 +1389,13 @@ Hewlett-Packard              2
 			.sorted((a,b)->b.split("\t")[1].compareTo(a.split("\t")[1]))
 			.forEach(System.out::println);
 
+	//solucion
+			listFab.stream()
+					.map(fab -> {
+						return new Object[] {fab.getNombre(), fab.getProductos().stream().filter(p-> p.getPrecio()>=200).count()};
+					})
+					.sorted(comparing(o-> (Long)o[1], reverseOrder()))
+					.forEach(o-> System.out.println(o[0]+": "+o[1]));
 		}
 		catch (RuntimeException e) {
 			((FabricanteDAOImpl)fabricantesDAO).rollbackTransaction();
