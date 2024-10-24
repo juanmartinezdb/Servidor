@@ -1,5 +1,4 @@
-package genericos1;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +17,7 @@ public class JUnit_PilaArray {
     @DisplayName("Añadir")
     void testAñadirPila() {
         pila.aniadir(3);
-        assertEquals(3,pila.primer());
+        Assertions.assertEquals(3,pila.primero());
 
     }
 
@@ -26,7 +25,7 @@ public class JUnit_PilaArray {
     @DisplayName("Pila Vacia")
     void testPilaVacia() {
         // verificar que comprueba que está vacia
-        assertTrue(pila.estaVacia());
+        Assertions.assertTrue(pila.estaVacia());
     }
 
     @Test
@@ -35,7 +34,7 @@ public class JUnit_PilaArray {
         // añado dos y verifico si extrae el ultimo
         pila.aniadir(8);
         pila.aniadir(7);
-        assertEquals(7, pila.extraer());
+        Assertions.assertEquals(7, pila.extraer());
         /*
          assertEquals es una declaracion de afirmacion
          que valida que el valor esperado
@@ -47,6 +46,6 @@ public class JUnit_PilaArray {
     @DisplayName("PrimeroPila")
     void testPrimeroPila() {
         pila.aniadir(10);
-        assertEquals(10, pila.primer());
+        Assertions.assertEquals(10, pila.primero());
     }
 }
