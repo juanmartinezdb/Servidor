@@ -18,6 +18,11 @@ public class ListaOrdenada <E extends Comparable<E>> {
         lista = new LinkedList<>();
         
     }
-
-    
+    public void adiciona(E e) {
+        lista.add(e);
+        lista.sort(null);
+    }
+    public E remove() {
+        return lista.remove(0);
+    }
 }
