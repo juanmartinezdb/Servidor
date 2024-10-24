@@ -34,6 +34,7 @@ public class Pila<T> implements ColeccionSimpleGenerica<T> {
         return Lista.isEmpty();
     }
 
+
     @Override
     public T extraer() {
         return Lista.remove(0);

@@ -44,11 +44,8 @@ public class Empresa {
         public static Empresa cargadorDeContexto(String nombre) {
         Empresa empresa = new Empresa(nombre);
 
-        // Sacamos la clase de la empresa para referirnos a ella despues
-        Class<Empresa> claseEmpresa = Empresa.class;
-
         // Pillamos las notas en un array
-        EmpleadoNota[] empleadosAnotados = claseEmpresa.getAnnotationsByType(EmpleadoNota.class);
+        EmpleadoNota[] empleadosAnotados = Empresa.class.getAnnotationsByType(EmpleadoNota.class);
 
         // Recorremos el array para procesas todas las notas que teniamos puestas
         for (EmpleadoNota e : empleadosAnotados) {
