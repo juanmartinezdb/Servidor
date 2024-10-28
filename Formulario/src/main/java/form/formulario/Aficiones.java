@@ -19,12 +19,35 @@ public class Aficiones {
 
     @Override
     public String toString() {
-        return "Aficiones:" +
-                "<br>cine=" + cine +
-                "<br>literatura=" + literatura +
-                "<br>tebeos=" + tebeos +
-                "<br>deporte=" + deporte +
-                "<br>musica=" + musica +
-                "<br>television=" + television;
+        StringBuilder cadena = new StringBuilder();
+        cadena.append("Aficiones: ");
+        if (cine){
+            cadena.append("Cine, ");
+        }
+        if (literatura){
+            cadena.append("Literatura, ");
+        }
+        if (tebeos){
+            cadena.append("Tebeos, ");
+        }
+        if (deporte){
+            cadena.append("Deporte, ");
+        }
+        if (musica){
+            cadena.append("Musica, ");
+        }
+        if (television){
+            cadena.append("Television, ");
+        }
+        cadena.delete(cadena.length()-2, cadena.length());
+        cadena.append(".");
+        return cadena.toString();
+//        return "Aficiones:"+
+//                "<br>cine=" + cine +
+//                "<br>literatura=" + literatura +
+//                "<br>tebeos=" + tebeos +
+//                "<br>deporte=" + deporte +
+//                "<br>musica=" + musica +
+//                "<br>television=" + television;
     }
 }

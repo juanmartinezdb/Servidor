@@ -16,12 +16,14 @@ public class formulario extends HttpServlet {
 
     public void init() {}
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
+
         nombre = request.getParameter("nombre");
         apellidos = request.getParameter("apellidos");
         edad = request.getParameter("edad");
         sexo = request.getParameter("sexo");
+        estadoCivil = request.getParameter("estadoCivil");
         aficiones = new Aficiones(request.getParameter("cine"),
                 request.getParameter("literatura"),
                 request.getParameter("tebeos"),
@@ -30,16 +32,13 @@ public class formulario extends HttpServlet {
                 request.getParameter("television")
                );
 
-
-
-
         PrintWriter out = response.getWriter();
         out.println("<html><body>");
-        out.println("<h1>Nombre "+nombre+"</h1>");
-        out.println("<h2>Apellidos"+apellidos+"</h2>");
-        out.println("<h2>Edad"+edad+"</h2>");
-        out.println("<h2>Sexo"+sexo+"</h2>");
-        out.println("<h2>Estado Civil"+estadoCivil+"</h2>");
+        out.println("<h1>Nombre: "+nombre+"</h1>");
+        out.println("<h2>Apellidos: "+apellidos+"</h2>");
+        out.println("<h2>Edad: "+edad+"</h2>");
+        out.println("<h2>Sexo: "+sexo+"</h2>");
+        out.println("<h2>Estado Civil: "+estadoCivil+"</h2>");
         out.println("<h2>"+aficiones+"</h2>");
         out.println("</body></html>");
     }

@@ -26,7 +26,7 @@
 <p>Actualice la página para una nueva tirada</p>
 <h2>Tirada de dados</h2>
 <div>
-    <%=salida%>
+    <%=salida%> //es mejor meter el for aqui que hacer un stream arriba.
 </div>
 <h2>Ordenada</h2>
 <div>
