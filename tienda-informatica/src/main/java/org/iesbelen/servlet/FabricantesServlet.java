@@ -43,12 +43,13 @@ public class FabricantesServlet extends HttpServlet {
 //			GET
 //				/fabricantes/
 //				/fabricantes
-			List<Fabricante> listaFabricantes = fabDAO.getAll();
-			List<FabricanteDTO> listaFabricantesDTO = listaFabricantes.stream()
-							.map(fab -> new FabricanteDTO(fab,
-									fabDAO.getCountProductos(fab.getIdFabricante()).orElse(0)
-							))
-									.toList();
+//			List<Fabricante> listaFabricantes = fabDAO.getAll();
+//			List<FabricanteDTO> listaFabricantesDTO = listaFabricantes.stream()
+//							.map(fab -> new FabricanteDTO(fab,
+//									fabDAO.getCountProductos(fab.getIdFabricante()).orElse(0)
+//							))
+//									.toList();
+			List<FabricanteDTO> listaFabricantesDTO = fabDAO.getAllDTO();
 
 			request.setAttribute("listaFabricantes", listaFabricantesDTO);
 
