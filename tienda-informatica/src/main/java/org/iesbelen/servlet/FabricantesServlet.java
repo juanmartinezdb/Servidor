@@ -1,6 +1,8 @@
 package org.iesbelen.servlet;
 
+import java.io.Console;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,17 +41,37 @@ public class FabricantesServlet extends HttpServlet {
 			
 		if (pathInfo == null || "/".equals(pathInfo)) {
 			FabricanteDAO fabDAO = new FabricanteDAOImpl();
-			
+			String ordenarPor = request.getParameter("ordenar-por");
+			String modoOrdenar = request.getParameter("modo-ordenar");
+
 //			GET
 //				/fabricantes/
 //				/fabricantes
-//			List<Fabricante> listaFabricantes = fabDAO.getAll();
-//			List<FabricanteDTO> listaFabricantesDTO = listaFabricantes.stream()
-//							.map(fab -> new FabricanteDTO(fab,
-//									fabDAO.getCountProductos(fab.getIdFabricante()).orElse(0)
-//							))
-//									.toList();
-			List<FabricanteDTO> listaFabricantesDTO = fabDAO.getAllDTO();
+
+			List<FabricanteDTO> listaFabricantesDTO;
+
+						if (ordenarPor != null && modoOrdenar != null) {
+							listaFabricantesDTO = fabDAO.getAllOrderDTO(ordenarPor, modoOrdenar);
+						} else {
+							listaFabricantesDTO = fabDAO.getAllDTO();
+						}
+//			if (ordenarPor != null && modoOrdenar != null) {
+//
+//				if ("nombre".equals(ordenarPor) && "asc".equals(modoOrdenar)) {
+//					listaFabricantesDTO = listaFabricantesDTO.stream()
+//							.sorted(Comparator.comparing(FabricanteDTO::getNombre)).toList();
+//				} else if ("nombre".equals(ordenarPor) && "desc".equals(modoOrdenar)) {
+//					listaFabricantesDTO = listaFabricantesDTO.stream()
+//							.sorted(Comparator.comparing(FabricanteDTO::getNombre).reversed()).toList();
+//				} else if ("codigo".equals(ordenarPor) && "asc".equals(modoOrdenar)) {
+//					listaFabricantesDTO = listaFabricantesDTO.stream()
+//							.sorted(Comparator.comparing(FabricanteDTO::getIdFabricante)).toList();
+//				} else {
+//					listaFabricantesDTO = listaFabricantesDTO.stream()
+//							.sorted(Comparator.comparing(FabricanteDTO::getIdFabricante).reversed()).toList();
+//				}
+//			}
+
 
 			request.setAttribute("listaFabricantes", listaFabricantesDTO);
 

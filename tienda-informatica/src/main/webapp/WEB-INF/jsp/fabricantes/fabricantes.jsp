@@ -18,8 +18,22 @@
 	</style>
 </head>
 <body>
-<body>
 
+<form action="${pageContext.request.contextPath}/tienda/fabricantes" method="get">
+	<label for="ordenar-por">Ordenar por:</label>
+	<select name="ordenar-por" id="ordenar-por">
+		<option value="nombre">nombre</option>
+		<option value="codigo">codigo</option>
+	</select>
+
+	<label for="modo-ordenar">Modo:</label>
+	<select name="modo-ordenar" id="modo-ordenar">
+		<option value="asc">asc</option>
+		<option value="desc">desc</option>
+	</select>
+
+	<button type="submit">Ordenar</button>
+</form>
 	<div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
 		<div class="clearfix">
 			<div style="float: left; width: 50%">
@@ -80,6 +94,5 @@
 		No hay registros de fabricante
 	<% } %>
 	</div>
-</body>
 </body>
 </html>

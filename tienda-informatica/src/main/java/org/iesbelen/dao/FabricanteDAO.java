@@ -17,4 +17,6 @@ public interface FabricanteDAO {
 	//Ampliación CRUD:
 	public Optional<Integer> getCountProductos(int id);
 	public List<FabricanteDTO> getAllDTO();
+	public List<FabricanteDTO> getAllOrderDTO(String orden, String modo);
+
 }
