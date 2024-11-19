@@ -16,10 +16,17 @@
 			clear: both;
 		}
 	</style>
+	<%@ include file="/WEB-INF/jsp/fragmentos/bootstrap.jspf" %>
 </head>
 <body>
-<body>
+<%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
 
+<form action="${pageContext.request.contextPath}/tienda/productos" method="get">
+	<label for="busqueda">Buscar por:</label>
+	<input name="busqueda" id="busqueda" type="text">
+	<button type="submit">Buscar</button>
+</form>
 	<div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
 		<div class="clearfix">
 			<div style="float: left; width: 50%">
@@ -80,6 +87,7 @@
 		No hay registros de producto
 	<% } %>
 	</div>
-</body>
+<%@ include file ="/WEB-INF/jsp/fragmentos/footer.jspf"%>
+
 </body>
 </html>

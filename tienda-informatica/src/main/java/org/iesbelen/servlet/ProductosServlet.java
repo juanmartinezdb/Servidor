@@ -13,6 +13,7 @@ import org.iesbelen.dao.ProductoDAOImpl;
 import org.iesbelen.model.Producto;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "productosServlet", value = "/tienda/productos/*")
 public class ProductosServlet extends HttpServlet {
@@ -38,10 +39,20 @@ public class ProductosServlet extends HttpServlet {
 		if (pathInfo == null || "/".equals(pathInfo)) {
 			ProductoDAO prodDAO = new ProductoDAOImpl();
 
+			String busqueda = request.getParameter("busqueda");
+			List<Producto> listaProductos = null;
+			if (busqueda != null) {
+				listaProductos = prodDAO.findByString(busqueda);
+			} else {
+				listaProductos = prodDAO.getAll();
+			}
 			//GET 
 			//	/productos/
 			//	/productos
-			request.setAttribute("listaProductos", prodDAO.getAll());
+
+
+
+			request.setAttribute("listaProductos", listaProductos);
 			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/productos.jsp");
 			        		       
 		} else {

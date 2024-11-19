@@ -16,8 +16,11 @@
 }
 
 </style>
+	<%@ include file="/WEB-INF/jsp/fragmentos/bootstrap.jspf" %>
 </head>
 <body>
+<%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
 
 <div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
 		<div class="clearfix">
@@ -76,6 +79,6 @@
 		<% 	} %>
 		
 </div>
-
+<%@ include file ="/WEB-INF/jsp/fragmentos/footer.jspf"%>
 </body>
 </html>

@@ -43,7 +43,6 @@ public class FabricantesServlet extends HttpServlet {
 			FabricanteDAO fabDAO = new FabricanteDAOImpl();
 			String ordenarPor = request.getParameter("ordenar-por");
 			String modoOrdenar = request.getParameter("modo-ordenar");
-
 //			GET
 //				/fabricantes/
 //				/fabricantes
@@ -71,6 +70,7 @@ public class FabricantesServlet extends HttpServlet {
 //							.sorted(Comparator.comparing(FabricanteDTO::getIdFabricante).reversed()).toList();
 //				}
 //			}
+
 
 
 			request.setAttribute("listaFabricantes", listaFabricantesDTO);

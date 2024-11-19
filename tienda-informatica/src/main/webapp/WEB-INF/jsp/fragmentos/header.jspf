@@ -1,0 +1,6 @@
+<header>
+    <div class="container-fluid d-flex flex-column justify-content-center align-items-center pt-5 pb-2">
+        <h1 class="display-1">Tienda de Informatica</h1>
+        <p>Mantenimiento de tienda de Informatica</p>
+    </div>
+</header>

@@ -16,8 +16,11 @@
 }
 
 </style>
+	<%@ include file="/WEB-INF/jsp/fragmentos/bootstrap.jspf" %>
 </head>
 <body>
+<%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
 
 <div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
 	<form action="${pageContext.request.contextPath}/tienda/productos/crear/" method="post">
@@ -79,6 +82,7 @@
 	</div>
 	</form>
 </div>
+<%@ include file ="/WEB-INF/jsp/fragmentos/footer.jspf"%>
 
 </body>
 </html>

@@ -16,8 +16,11 @@
 			clear: both;
 		}
 	</style>
+	<%@ include file="/WEB-INF/jsp/fragmentos/bootstrap.jspf" %>
 </head>
 <body>
+<%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
+<%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
 
 <form action="${pageContext.request.contextPath}/tienda/fabricantes" method="get">
 	<label for="ordenar-por">Ordenar por:</label>
@@ -94,5 +97,7 @@
 		No hay registros de fabricante
 	<% } %>
 	</div>
+
+<%@ include file ="/WEB-INF/jsp/fragmentos/footer.jspf"%>
 </body>
 </html>
