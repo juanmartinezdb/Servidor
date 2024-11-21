@@ -56,7 +56,7 @@ public class ProductosServlet extends HttpServlet {
 			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/productos/productos.jsp");
 			        		       
 		} else {
-			// GET
+			// GETo
 			// 		/productos/{id}
 			// 		/productos/{id}/
 			// 		/productos/edit/{id}

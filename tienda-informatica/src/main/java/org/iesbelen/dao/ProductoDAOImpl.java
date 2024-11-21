@@ -211,11 +211,11 @@ public class ProductoDAOImpl extends AbstractDAOImpl implements ProductoDAO{
 		try {
 			conn = connectDB();
 
+
 			String query = "SELECT * FROM productos WHERE nombre LIKE ?";
 			ps = conn.prepareStatement(query);
 			int posicion = 1;
 			String busqueda = "%" + cadena + "%";
-
 			ps.setString(posicion, busqueda);
 
 			rs = ps.executeQuery();

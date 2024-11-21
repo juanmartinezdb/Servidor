@@ -18,6 +18,7 @@
 </style>
 	<%@ include file="/WEB-INF/jsp/fragmentos/bootstrap.jspf" %>
 </head>
+
 <body>
 <%@ include file="/WEB-INF/jsp/fragmentos/header.jspf" %>
 <%@ include file="/WEB-INF/jsp/fragmentos/nav.jspf" %>
