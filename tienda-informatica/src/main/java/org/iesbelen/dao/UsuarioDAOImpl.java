@@ -34,7 +34,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
 
     int rows = ps.executeUpdate();
     if (rows > 0) {
-        System.out.println("INSERT de fabricante con 0 filas insertadas.");
+        System.out.println("INSERT de usuario con 0 filas insertadas.");
     }
     rsGenKeys = ps.getGeneratedKeys();
     if (rsGenKeys.next()) {
@@ -126,7 +126,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
 
         try {
             conn = connectDB();
-            ps = conn.prepareStatement("UPDATE usuario SET nombre = ?, password = ?, rol = ? WHERE idUsuario = ?");
+            ps = conn.prepareStatement("UPDATE usuarios SET usuario = ?, password = ?, rol = ? WHERE idUsuario = ?");
             int idx = 1;
             ps.setString(idx++, usuario.getNombre());
             ps.setString(idx++, usuario.getPassword());
@@ -134,7 +134,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
             ps.setInt(idx++, usuario.getIdUsuario());
             int rows = ps.executeUpdate();
             if (rows > 0) {
-                System.out.println("UPDATE de fabricante con 0 filas updates.");
+                System.out.println("UPDATE de usuario con 0 filas updates.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -158,7 +158,7 @@ public class UsuarioDAOImpl extends AbstractDAOImpl implements UsuarioDAO {
             ps.setInt(1, id);
             int rows = ps.executeUpdate();
             if (rows > 0) {
-                System.out.println("DELETE de fabricante con 0 filas deletes.");
+                System.out.println("DELETE de usuario con 0 filas deletes.");
             }
 
         } catch (SQLException e) {
