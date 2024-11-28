@@ -144,13 +144,14 @@ public class FabricantesServlet extends HttpServlet {
 		if (__method__ == null) {
 			// Crear uno nuevo
 			FabricanteDAO fabDAO = new FabricanteDAOImpl();
-			
+
 			String nombre = request.getParameter("nombre");
 			Fabricante nuevoFab = new Fabricante();
 			nuevoFab.setNombre(nombre);
-			fabDAO.create(nuevoFab);			
-			
-		} else if (__method__ != null && "put".equalsIgnoreCase(__method__)) {			
+			fabDAO.create(nuevoFab);
+
+
+		} else if (__method__ != null && "put".equalsIgnoreCase(__method__)) {
 			// Actualizar uno existente
 			//Dado que los forms de html sólo soportan method GET y POST utilizo parámetro oculto para indicar la operación de actulización PUT.
 			doPut(request, response);

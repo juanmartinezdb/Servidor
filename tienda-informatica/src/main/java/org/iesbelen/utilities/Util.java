@@ -1,8 +1,13 @@
 package org.iesbelen.utilities;
 
+import org.iesbelen.dao.UsuarioDAO;
+import org.iesbelen.dao.UsuarioDAOImpl;
+import org.iesbelen.model.Usuario;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public class Util {
     public static String hashPassword(String password ) throws NoSuchAlgorithmException {
@@ -28,5 +33,17 @@ public class Util {
 
         return hexString.toString();
 
+    }
+
+    public static boolean autentificacion (Usuario user){
+        UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
+        Optional<Usuario> registrado = usuarioDAO.getByPassword(user.getPassword(), user.getNombre());
+        if (registrado.isPresent()) {
+            System.out.println(registrado.get().getNombre()+" encontrado");
+            return true;
+        } else {
+            System.out.println("no encontrado");
+            return false;
+        }
     }
 }

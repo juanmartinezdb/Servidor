@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.servlet.http.HttpSession;
 import org.iesbelen.model.Usuario;
 import org.iesbelen.dao.UsuarioDAOImpl;
 import org.iesbelen.dao.UsuarioDAO;
@@ -41,6 +42,11 @@ public class UsuarioServlet extends HttpServlet {
 
             if (pathParts.length == 2 && "crear".equals(pathParts[1])) {
                 dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/usuarios/crear-usuario.jsp");
+
+
+            } else if (pathParts.length == 2 && "login".equals(pathParts[1])) {
+                dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/usuarios/login.jsp");
+
 
             } else if (pathParts.length == 2) {
                 UsuarioDAO userDAO = new UsuarioDAOImpl();
@@ -76,13 +82,14 @@ public class UsuarioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         RequestDispatcher dispatcher;
+        HttpSession session=req.getSession(true);
         String __method__ = req.getParameter("__method__");
         if (__method__ == null) {
             UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
             Usuario nuevoUsuario = new Usuario();
             String nombre = req.getParameter("nombre");
             try {
-            nuevoUsuario.setPassword(Util.hashPassword(req.getParameter("password")));
+                nuevoUsuario.setPassword(Util.hashPassword(req.getParameter("password")));
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
             }
@@ -92,6 +99,25 @@ public class UsuarioServlet extends HttpServlet {
             nuevoUsuario.setNombre(nombre);
             nuevoUsuario.setRol(rol);
             usuarioDAO.create(nuevoUsuario);
+        } else if (__method__!=null && "login".equalsIgnoreCase(__method__)) {
+            try {
+                Usuario entrada = new Usuario();
+                entrada.setPassword(Util.hashPassword(req.getParameter("password")));
+                entrada.setNombre(req.getParameter("nombre"));
+                entrada.setRol("");
+
+                if (Util.autentificacion(entrada)) {
+
+                    session.setAttribute("usuario", entrada);
+                }
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
+
+        } else if (__method__!=null && "logout".equalsIgnoreCase(__method__)) {
+            session.setAttribute("usuario", null);
+
+
         } else if (__method__!= null && "put".equalsIgnoreCase(__method__)) {
             doPut(req, resp);
         } else if (__method__!= null && "delete".equalsIgnoreCase(__method__)) {

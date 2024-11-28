@@ -12,6 +12,7 @@ public interface UsuarioDAO {
     public Optional<Usuario> getById(int id);
     public void update(Usuario usuario);
     public void delete(int id);
+    public Optional<Usuario> getByPassword(String password, String usuario);
 
 
 }
