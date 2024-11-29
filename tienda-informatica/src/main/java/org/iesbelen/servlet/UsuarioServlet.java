@@ -84,6 +84,7 @@ public class UsuarioServlet extends HttpServlet {
         RequestDispatcher dispatcher;
         HttpSession session=req.getSession(true);
         String __method__ = req.getParameter("__method__");
+        String redireccion = "/tienda/usuarios";
         if (__method__ == null) {
             UsuarioDAO usuarioDAO = new UsuarioDAOImpl();
             Usuario nuevoUsuario = new Usuario();
@@ -104,11 +105,13 @@ public class UsuarioServlet extends HttpServlet {
                 Usuario entrada = new Usuario();
                 entrada.setPassword(Util.hashPassword(req.getParameter("password")));
                 entrada.setNombre(req.getParameter("nombre"));
-                entrada.setRol("");
-
-                if (Util.autentificacion(entrada)) {
-
+                Optional<Usuario> loggeado = Util.autentificacion(entrada);
+                if (loggeado.isPresent()) {
+                    entrada.setRol(loggeado.get().getRol());
                     session.setAttribute("usuario", entrada);
+                    redireccion = ""; //nos vamos al main
+                } else {
+                    redireccion = "/tienda/usuarios/login";
                 }
             } catch (NoSuchAlgorithmException e) {
                 throw new RuntimeException(e);
@@ -116,7 +119,7 @@ public class UsuarioServlet extends HttpServlet {
 
         } else if (__method__!=null && "logout".equalsIgnoreCase(__method__)) {
             session.setAttribute("usuario", null);
-
+            redireccion = ""; //nos vamos al main
 
         } else if (__method__!= null && "put".equalsIgnoreCase(__method__)) {
             doPut(req, resp);
@@ -125,7 +128,7 @@ public class UsuarioServlet extends HttpServlet {
         } else {
             System.out.println("Opcion no soportada");
         }
-        resp.sendRedirect(req.getContextPath() + "/tienda/usuarios");
+        resp.sendRedirect(req.getContextPath() + redireccion);
     }
 
     @Override

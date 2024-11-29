@@ -1,3 +1,4 @@
+<%@page import="org.iesbelen.model.Usuario" %>
 <div class="container-fluid d-flex align-items-center justify-content-between bg-body-tertiary mb-2">
     <div class="flex-grow-1">
         <nav class="navbar navbar-expand-sm bg-body-tertiary">
@@ -18,12 +19,14 @@
     </div>
 
     <%
+
     if (session.getAttribute("usuario")!=null) {
-    Usuario loggeado = (Usuario) session.getAttribute(("usuario"));
+        Usuario userlog = (Usuario) session.getAttribute("usuario");
+
     %>
     <div class="d-flex me-2 p-1 ">
 
-        <p>Hola <% loggeado.getNombre() %> </p>
+        <p><%=userlog.getNombre()%></p>
         <form action="${pageContext.request.contextPath}/tienda/usuarios/login/" method="post" style="display: inline;">
             <input type="hidden" name="__method__" value="logout"/>
             <input type="submit" value="LOGOUT" />

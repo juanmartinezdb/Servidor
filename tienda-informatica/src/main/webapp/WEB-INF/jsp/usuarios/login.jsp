@@ -9,6 +9,7 @@
          pageEncoding="UTF-8"%>
 <%@page import="org.iesbelen.model.Usuario"%>
 <%@page import="java.util.Optional"%>
+<%@ include file="/WEB-INF/jsp/fragmentos/imports.jspf" %>
 <html>
 <head>
     <title>Crear Usuario</title>
@@ -54,7 +55,7 @@
             <div style="float: none;width: auto;overflow: hidden;">
                 <input name="password" />
             </div>
-        </div>
+
         <div style="float: none;width: auto;overflow: hidden;min-height: 80px;position: relative;">
 
             <div style="position: absolute; left: 50%; top : 10%;">

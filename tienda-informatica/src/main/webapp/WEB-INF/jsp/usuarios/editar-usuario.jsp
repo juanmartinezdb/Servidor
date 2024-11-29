@@ -9,6 +9,7 @@
          pageEncoding="UTF-8"%>
 <%@page import="org.iesbelen.model.Usuario"%>
 <%@page import="java.util.Optional"%>
+<%@ include file="/WEB-INF/jsp/fragmentos/imports.jspf" %>
 <!DOCTYPE html>
 <html>
 <head>

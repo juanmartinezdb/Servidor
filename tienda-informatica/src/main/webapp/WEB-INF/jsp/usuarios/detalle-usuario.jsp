@@ -10,6 +10,7 @@
 <%@page import="org.iesbelen.model.Fabricante"%>
 <%@page import="java.util.Optional"%>
 <%@ page import="org.iesbelen.model.Usuario" %>
+<%@ include file="/WEB-INF/jsp/fragmentos/imports.jspf" %>
 <!DOCTYPE html>
 <html>
 <head>

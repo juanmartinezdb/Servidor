@@ -9,6 +9,7 @@
          pageEncoding="UTF-8"%>
 <%@page import="org.iesbelen.model.Usuario"%>
 <%@page import="java.util.Optional"%>
+<%@ include file="/WEB-INF/jsp/fragmentos/imports.jspf" %>
 <html>
 <head>
     <title>Crear Usuario</title>
@@ -20,6 +21,7 @@
         }
 
     </style>
+
     <%@ include file="/WEB-INF/jsp/fragmentos/bootstrap.jspf" %>
 </head>
 <body>
