@@ -82,7 +82,6 @@ public class UsuarioServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         RequestDispatcher dispatcher;
-        HttpSession session=req.getSession(true);
         String __method__ = req.getParameter("__method__");
         String redireccion = "/tienda/usuarios";
         if (__method__ == null) {
@@ -107,6 +106,7 @@ public class UsuarioServlet extends HttpServlet {
                 entrada.setNombre(req.getParameter("nombre"));
                 Optional<Usuario> loggeado = Util.autentificacion(entrada);
                 if (loggeado.isPresent()) {
+                    HttpSession session=req.getSession(true);
                     entrada.setRol(loggeado.get().getRol());
                     session.setAttribute("usuario", entrada);
                     redireccion = ""; //nos vamos al main
@@ -118,7 +118,9 @@ public class UsuarioServlet extends HttpServlet {
             }
 
         } else if (__method__!=null && "logout".equalsIgnoreCase(__method__)) {
+            HttpSession session=req.getSession(true);
             session.setAttribute("usuario", null);
+            session.invalidate(); //ESTO ES PARA CERRAR LA SESION
             redireccion = ""; //nos vamos al main
 
         } else if (__method__!= null && "put".equalsIgnoreCase(__method__)) {

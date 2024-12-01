@@ -4,6 +4,7 @@
 <%@page import="java.util.List"%>
 <%@ page import="org.iesbelen.model.FabricanteDTO" %>
 <%@ include file="/WEB-INF/jsp/fragmentos/imports.jspf" %>
+<%@page import="org.iesbelen.model.Usuario" %>
 
 <!DOCTYPE html>
 <html>
@@ -80,6 +81,10 @@
 				<form action="${pageContext.request.contextPath}/tienda/fabricantes/<%= fabricante.getIdFabricante()%>" style="display: inline;">
     				<input type="submit" value="Ver Detalle" />
 				</form>
+				<%	if (session.getAttribute("usuario")!=null) {
+						Usuario logged = (Usuario)session.getAttribute(("usuario"));
+						if ("administrador".equals(logged.getRol())){
+					%>
 				<form action="${pageContext.request.contextPath}/tienda/fabricantes/editar/<%= fabricante.getIdFabricante()%>" style="display: inline;">
     				<input type="submit" value="Editar" />
 				</form>
@@ -88,6 +93,7 @@
 					<input type="hidden" name="codigo" value="<%= fabricante.getIdFabricante()%>"/>
     				<input type="submit" value="Eliminar" />
 				</form>
+				<%}}%>
 			</div>
 		</div>
 

@@ -41,7 +41,6 @@ public class FabricantesFilter extends HttpFilter implements Filter {
      */
     public void init(FilterConfig fConfig) throws ServletException {
 //CARGA EL ROL CONCEDIDO QUE ES ADMINISTRADOR ESTO LO PILLA DE LA ANOTACION
-        System.out.println("Filtro fabricante iniciado");
         this.rolAcceso = fConfig.getInitParameter("acceso-concedido-a-rol");
     }
     /**
@@ -72,33 +71,18 @@ public class FabricantesFilter extends HttpFilter implements Filter {
 
         Usuario usuario = null;
 
-        if (session != null){
-            //Seteo inline de usuario
-            System.out.println("hay sesion iniciada");
+        if (session != null
+                && (usuario = (Usuario)session.getAttribute("usuario") )!= null
+                && "administrador".equals(usuario.getRol())) {
 
-        if (session.getAttribute("usuario")!=null ) {
-            usuario = (Usuario)session.getAttribute("usuario");
-            System.out.println("hay un usuario");
-            System.out.println(usuario.getNombre());
-            System.out.println(usuario.getRol());
-
-            if ("administrador".equals(usuario.getRol())) {
-
-             System.out.println("Entra como administrador");
-             //Si eres administrador acceso a cualquier página del filtro
-             chain.doFilter(request, response);
-             return;
-
-         }
-
-        } else {
-            System.out.println("sesion iniciada pero Usuario no encontrado");
-        }
+            //Si eres administrador acceso a cualquier página del filtro
+            chain.doFilter(request, response);
+            return;
 
         } else if (url.endsWith("/fabricantes/crear")
                 || url.contains("/fabricantes/editar")
                 || url.contains("/fabricantes/borrar")) {
-            System.out.println("USUARIO NO LOGGEADO O SIN PERMISOS");
+
             // Usuario no administrador trata de acceder a páginas de crear y editar, y el filtro lo redirige a login
             httpResponse.sendRedirect(httpRequest.getContextPath() + "/tienda/usuarios/login");
             return;

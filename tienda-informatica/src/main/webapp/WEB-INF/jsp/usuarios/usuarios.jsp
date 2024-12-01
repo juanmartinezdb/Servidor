@@ -75,6 +75,10 @@
             <form action="${pageContext.request.contextPath}/tienda/usuarios/<%= user.getIdUsuario()%>" style="display: inline;">
                 <input type="submit" value="Ver Detalle" />
             </form>
+            <%	if (session.getAttribute("usuario")!=null) {
+                Usuario logged = (Usuario)session.getAttribute(("usuario"));
+                if ("administrador".equals(logged.getRol())){
+            %>
             <form action="${pageContext.request.contextPath}/tienda/usuarios/editar/<%= user.getIdUsuario()%>" style="display: inline;">
                 <input type="submit" value="Editar" />
             </form>
@@ -83,6 +87,7 @@
                 <input type="hidden" name="codigo" value="<%= user.getIdUsuario()%>"/>
                 <input type="submit" value="Eliminar" />
             </form>
+            <% }} %>
         </div>
     </div>
 
