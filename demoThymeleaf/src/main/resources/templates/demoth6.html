@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo 6</title>
+</head>
+<body>
+<div th:with="tit = ${libro.titulo}">
+    <!-- La variable solo es válida en el ámbito de la etiquta sobre la que se define en este caso sólo dentro de div -->
+
+    <span th:text="${tit}"></span>
+
+</div>
+
+</body>
+</html>

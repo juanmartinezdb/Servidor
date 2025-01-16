@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo 7</title>
+</head>
+<body>
+<!-- insert inserta todo el fragmento con la etiqueta th:fragment="header" -->
+<header th:insert="fragments/general.html :: header"> </header>
+<p>Fragmentos en acción...</p>
+<!-- replace reemplaza la etiqueta por la que tiene th:fragment="footer" -->
+<div th:replace="fragments/general.html :: footer"></div>
+
+</body>
+</html>

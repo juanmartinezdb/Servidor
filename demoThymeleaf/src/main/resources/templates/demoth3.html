@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo 3</title>
+</head>
+<body>
+<p th:text="${unaVariable}"></p>
+<p th:text="${session.unaVariableDeSesion}"></p>
+
+<!-- Acceso a atributos de sesión mediante el objeto implícito session
+y el uso del identificador de atributo ElQuijote con acceso a método de getAutor
+por autor directamente-->
+<p th:text="${session.ElQuijote.autor}"></p>
+
+</body>
+</html>
