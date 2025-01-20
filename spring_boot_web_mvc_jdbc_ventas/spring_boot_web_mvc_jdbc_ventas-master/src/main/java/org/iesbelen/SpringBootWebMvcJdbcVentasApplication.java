@@ -84,7 +84,8 @@ public class SpringBootWebMvcJdbcVentasApplication implements CommandLineRunner{
 
 		comercialDAO.getAll().forEach(c -> log.info("Comercial: {}", c));
 
-		int id = 1;
+		//int id = 1;
+		log.info(String.valueOf(id));
 		Optional<Comercial> comercial = comercialDAO.find(id);
 
 		if (comercial.isPresent()) {
@@ -101,13 +102,14 @@ public class SpringBootWebMvcJdbcVentasApplication implements CommandLineRunner{
 			log.info("Comercial {}: {}", id, comercial.get());
 
 			//Volvemos a cargar el nombre antiguo..
-			comercial.get().setNombre(nombreOld);
-			comercialDAO.update(comercial.get());
 
+			comercial.get().setNombre(nombreOld);
+
+			comercialDAO.update(comercial.get());
 		}
 
 		// Como es un comercial nuevo a persistir, id a 0
-		Cliente comercialNew = new Comercial(0, "Maria Jose", "Espertarez", null, 0.15);
+		Comercial comercialNew = new Comercial(0, "Maria Jose", "Espertarez", null, 0.15f);
 
 		//create actualiza el id
 		comercialDAO.create(comercialNew);
