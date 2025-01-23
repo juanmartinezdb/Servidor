@@ -49,8 +49,6 @@ public class ComercialDAOImpl implements ComercialDAO {
 		 comercial.setId(keyHolder.getKey().intValue());
 
 		log.info("Insertados {} registros.", rows);
-
-
 	}
 
 	@Override
@@ -90,7 +88,6 @@ public class ComercialDAOImpl implements ComercialDAO {
 		} else {
 			return Optional.empty();
 		}
-
 	}
 
 	@Override
@@ -109,7 +106,6 @@ public class ComercialDAOImpl implements ComercialDAO {
 				, comercial.getComision()
 				, comercial.getId());
 				log.info("Actualizado {}", rows);
-
 	}
 
 	@Override
@@ -118,5 +114,4 @@ public class ComercialDAOImpl implements ComercialDAO {
 	int rows = jdbcTemplate.update("DELETE FROM comercial WHERE id = ?", id);
 		log.info("Eliminado {}", rows);
 	}
-
 }
