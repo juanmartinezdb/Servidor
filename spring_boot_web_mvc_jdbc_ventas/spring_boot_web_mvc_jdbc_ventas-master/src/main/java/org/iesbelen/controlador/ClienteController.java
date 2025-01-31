@@ -2,10 +2,12 @@ package org.iesbelen.controlador;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.service.ClienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -57,7 +59,21 @@ public class ClienteController {
 		return "cliente/crear-cliente";
 
 	}
+	@GetMapping("/clientes/validacion")
+	public String validacion(@ModelAttribute Cliente cliente,  Model model) {
 
+		return "cliente/validacion-cliente";
+
+	}
+	@PostMapping("/clientes/validacion")
+	public String validacionPost(@Valid @ModelAttribute Cliente cliente, BindingResult bindingResulted, Model model) {
+
+		model.addAttribute("cliente", cliente);
+		model.addAttribute("toString", cliente.toString());
+
+		return "cliente/validacion-cliente";
+
+	}
 	@PostMapping("/clientes/crear")
 	public RedirectView submitCrear(@ModelAttribute("cliente") Cliente cliente) {
 

@@ -1,7 +1,7 @@
 package org.iesbelen.controlador;
 
-import org.iesbelen.dao.ComercialDAO;
 import org.iesbelen.modelo.Comercial;
+import org.iesbelen.modelo.PedidoDTO;
 import org.iesbelen.service.ComercialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +20,7 @@ public class ComercialController {
     @Autowired
     private ComercialService comercialService;
 
+
     @GetMapping("/comerciales")
     public String listar(Model model) {
         List<Comercial> listaComerciales = comercialService.listAll();
@@ -31,7 +32,14 @@ public class ComercialController {
     public String detalle(Model model, @PathVariable Integer id ) {
 
         Comercial comercial = comercialService.one(id);
+        List<PedidoDTO> pedidos= comercialService.pedidosComercial(id) ;
+        Integer totalPedidos = comercialService.pedidosTotales();
+        Double porcentajePedidos = comercialService.porcentajePedidos(id);
+
+        model.addAttribute("porcentaje", porcentajePedidos);
+        model.addAttribute("totalPedidos", totalPedidos);
         model.addAttribute("comercial", comercial);
+        model.addAttribute("pedidos", pedidos);
 
         return "comercial/detalle-comercial";
 

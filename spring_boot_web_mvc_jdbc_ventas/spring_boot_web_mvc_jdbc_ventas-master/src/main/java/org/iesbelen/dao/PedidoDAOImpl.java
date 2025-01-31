@@ -2,6 +2,7 @@ package org.iesbelen.dao;
 
 import lombok.extern.slf4j.Slf4j;
 import org.iesbelen.modelo.Pedido;
+import org.iesbelen.modelo.PedidoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -17,6 +18,12 @@ public class PedidoDAOImpl implements PedidoDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+
+    @Override
+    public Integer totalPedidos() {
+        Integer totalPedidos = jdbcTemplate.queryForObject("select count(*) from pedido", Integer.class);
+        return totalPedidos;
+    }
 
     @Override
     public List<Pedido> getAll() {
@@ -37,23 +44,30 @@ public class PedidoDAOImpl implements PedidoDAO {
     }
 
     @Override
-    public Optional<List<Pedido>> find(int id_comercial) {
+    public Optional<List<PedidoDTO>> findByComercial(int idComercial) {
 
-        List<Pedido> pedComercial = jdbcTemplate.query(
-                "select * from pedidos where id_comercial = ?",
-                (rs, rowNum) -> new Pedido(
+        List<PedidoDTO> pedComercial = jdbcTemplate.query(
+                "SELECT p.id, p.total, p.fecha, p.id_cliente, p.id_comercial, c.nombre AS cliente_nombre " +
+                        "FROM pedido p " +
+                        "JOIN cliente c ON p.id_cliente = c.id " +
+                        "WHERE p.id_comercial = ?",
+                (ps) -> ps.setInt(1, idComercial),
+                (rs, rowNum) -> new PedidoDTO( //
                         rs.getInt("id"),
-                        rs.getInt("total"),
+                        rs.getDouble("total"),
                         rs.getDate("fecha"),
-                        rs.getInt("id_cliente"),
-                        rs.getInt("id_comercial")
+                        rs.getLong("id_cliente"),
+                        rs.getInt("id_comercial"),
+                        rs.getString("cliente_nombre")
                 )
         );
-        log.info("Pedidos por Comercial: {}", pedComercial.size());
+        log.info("Pedidos por Comercial con DTO: {}", pedComercial.size());
+
         if (pedComercial.isEmpty()) {
             return Optional.empty();
         } else {
             return Optional.of(pedComercial);
         }
     }
+
 }
