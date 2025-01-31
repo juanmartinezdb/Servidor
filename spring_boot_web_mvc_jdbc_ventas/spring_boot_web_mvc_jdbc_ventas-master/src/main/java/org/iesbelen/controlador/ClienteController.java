@@ -59,27 +59,33 @@ public class ClienteController {
 		return "cliente/crear-cliente";
 
 	}
-	@GetMapping("/clientes/validacion")
-	public String validacion(@ModelAttribute Cliente cliente,  Model model) {
-
-		return "cliente/validacion-cliente";
-
-	}
-	@PostMapping("/clientes/validacion")
-	public String validacionPost(@Valid @ModelAttribute Cliente cliente, BindingResult bindingResulted, Model model) {
-
-		model.addAttribute("cliente", cliente);
-		model.addAttribute("toString", cliente.toString());
-
-		return "cliente/validacion-cliente";
-
-	}
+//	@GetMapping("/clientes/validacion")
+//	public String validacion(@ModelAttribute Cliente cliente,  Model model) {
+//
+//		return "cliente/validacion-cliente";
+//
+//	}
+//	@PostMapping("/clientes/validacion")
+//	public String validacionPost(@Valid @ModelAttribute Cliente cliente, BindingResult bindingResulted, Model model) {
+//
+//		model.addAttribute("cliente", cliente);
+//		model.addAttribute("toString", cliente.toString());
+//
+//		return "cliente/validacion-cliente";
+//
+//	}
 	@PostMapping("/clientes/crear")
-	public RedirectView submitCrear(@ModelAttribute("cliente") Cliente cliente) {
+	public String submitCrear(@Valid @ModelAttribute Cliente cliente, BindingResult bindingResulted, Model model) {
 
+		if (bindingResulted.hasErrors()) {
+			model.addAttribute("cliente", cliente);
+
+			return "cliente/crear-cliente";
+
+		}
 		clienteService.newCliente(cliente);
 
-		return new RedirectView("/clientes") ;
+		return ("redirect:/clientes") ;
 
 	}
 
