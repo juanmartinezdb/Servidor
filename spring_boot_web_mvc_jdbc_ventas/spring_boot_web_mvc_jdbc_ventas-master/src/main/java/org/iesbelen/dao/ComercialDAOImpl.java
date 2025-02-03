@@ -31,8 +31,8 @@ public class ComercialDAOImpl implements ComercialDAO {
 		// TODO Auto-generated method stub
 
 		String sqlInsert = """
-				INSERT INTO comercial (nombre, apellido1, apellido2, comisión)
-				VALUES (		?, 		?, 			?, 			?)
+				INSERT INTO comercial (nombre, apellido1, apellido2, comisión, email)
+				VALUES (		?, 		?, 			?, 			?, ?)
 				""";
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -42,7 +42,8 @@ public class ComercialDAOImpl implements ComercialDAO {
 		ps.setString(idx++, comercial.getNombre());
 		ps.setString(idx++, comercial.getApellido1());
 		ps.setString(idx++, comercial.getApellido2());
-		ps.setFloat(idx,  comercial.getComision());
+		ps.setBigDecimal(idx++,  comercial.getComision());
+		ps.setString(idx++, comercial.getEmail());
 		return ps;
 	}, keyHolder);
 
@@ -60,7 +61,9 @@ public class ComercialDAOImpl implements ComercialDAO {
                 							  rs.getString("nombre"), 
                 							  rs.getString("apellido1"),
                 							  rs.getString("apellido2"), 
-                							  rs.getFloat("comisión"))
+                							  rs.getBigDecimal("comisión"),
+												rs.getString("email")
+				)
                 						 	
         );
 		
@@ -79,7 +82,8 @@ public class ComercialDAOImpl implements ComercialDAO {
 								rs.getString("nombre"),
 								rs.getString("apellido1"),
 								rs.getString("apellido2"),
-								rs.getFloat("comisión")),
+								rs.getBigDecimal("comisión"),
+								rs.getString("email")),
 						id
 		);
 		if (come != null) {
@@ -98,12 +102,14 @@ public class ComercialDAOImpl implements ComercialDAO {
 					                    nombre = ?,
 					                    apellido1 = ?,
 					                    apellido2 = ?,
-					                    comisión = ?
+					                    comisión = ?,
+                    					email = ?
 						WHERE id = ?
 					""", comercial.getNombre()
 				, comercial.getApellido1()
 				, comercial.getApellido2()
 				, comercial.getComision()
+				, comercial.getEmail()
 				, comercial.getId());
 				log.info("Actualizado {}", rows);
 	}

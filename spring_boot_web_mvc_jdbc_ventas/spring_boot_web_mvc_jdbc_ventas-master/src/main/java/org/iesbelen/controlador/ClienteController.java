@@ -3,6 +3,7 @@ package org.iesbelen.controlador;
 import java.util.List;
 
 import jakarta.validation.Valid;
+import org.iesbelen.exception.MiExcepcion;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.service.ClienteService;
 import org.springframework.stereotype.Controller;
@@ -59,21 +60,7 @@ public class ClienteController {
 		return "cliente/crear-cliente";
 
 	}
-//	@GetMapping("/clientes/validacion")
-//	public String validacion(@ModelAttribute Cliente cliente,  Model model) {
-//
-//		return "cliente/validacion-cliente";
-//
-//	}
-//	@PostMapping("/clientes/validacion")
-//	public String validacionPost(@Valid @ModelAttribute Cliente cliente, BindingResult bindingResulted, Model model) {
-//
-//		model.addAttribute("cliente", cliente);
-//		model.addAttribute("toString", cliente.toString());
-//
-//		return "cliente/validacion-cliente";
-//
-//	}
+
 	@PostMapping("/clientes/crear")
 	public String submitCrear(@Valid @ModelAttribute Cliente cliente, BindingResult bindingResulted, Model model) {
 
@@ -115,7 +102,17 @@ public class ClienteController {
 
 		return new RedirectView("/clientes");
 	}
-	
-	
-	
+
+	// Simula una RuntimeException al acceder a esta ruta
+	@GetMapping("/error-runtime")
+	public String lanzarRuntimeException() {
+		throw new RuntimeException("¡Ocurrió un error inesperado!");
+	}
+
+	// Simula una MiExcepcion al acceder a esta ruta
+	@GetMapping("/error-custom")
+	public String lanzarMiExcepcion() throws MiExcepcion {
+		throw new MiExcepcion("¡Esta es una excepción personalizada!");
+	}
+
 }

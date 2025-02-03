@@ -1,12 +1,11 @@
 package org.iesbelen.modelo;
 
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -26,6 +25,9 @@ public class Comercial {
 
 	@DecimalMin(value="0.276", inclusive=true, message="La comisión no puede ser menor a 0.276")
 	@DecimalMax(value="0.946", inclusive=true, message="La comisión no puede ser mayor a 0.946")
-	private float comision;
+	private BigDecimal comision;
 
+	@Email(message = "Formato de email incorrecto", regexp="^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,5}")
+	@NotBlank(message = "Por favor, introduzca email.")
+	private String email;
 }
