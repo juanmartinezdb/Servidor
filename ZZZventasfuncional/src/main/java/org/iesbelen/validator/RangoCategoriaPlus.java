@@ -15,7 +15,10 @@ import jakarta.validation.Payload;
 @Documented
 public @interface RangoCategoriaPlus {
 
-    int[] value(); // Permite definir valores personalizados
+    int[] value();
+    // Permite definir valores personalizados
+    int min() default 100;
+    int max() default 1000;
 
     String message() default "{error.rangocategoria.plus}";
 
