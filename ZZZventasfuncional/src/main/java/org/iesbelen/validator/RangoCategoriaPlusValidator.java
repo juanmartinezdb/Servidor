@@ -28,7 +28,7 @@ public class RangoCategoriaPlusValidator implements ConstraintValidator<RangoCat
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
 
-        context.disableDefaultConstraintViolation(); // Deshabilitamos el mensaje por defecto para personalizarlo
+        context.disableDefaultConstraintViolation(); // Deshabilitamos el que tiene
 
         if (value < min) {
             context.buildConstraintViolationWithTemplate("El valor debe ser mayor o igual a " + min)

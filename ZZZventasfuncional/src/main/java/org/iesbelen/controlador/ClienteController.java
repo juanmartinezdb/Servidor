@@ -97,17 +97,23 @@ public class ClienteController {
 
 		return new RedirectView("/clientes");
 	}
-
-	// Simula una RuntimeException al acceder a esta ruta
-	@GetMapping("/error-runtime")
-	public String lanzarRuntimeException() {
-		throw new RuntimeException("¡Ocurrió un error inesperado!");
+	///////////////////////////////////EXCEPCIONES
+	//Excepcion de Runtime
+	@GetMapping("/clientes/error")
+	public String RunTimeErrorEnClientes() {
+		throw new RuntimeException("Error de prueba en clientes");
 	}
 
-	// Simula una MiExcepcion al acceder a esta ruta
-	@GetMapping("/error-custom")
-	public String lanzarMiExcepcion() throws MiExcepcion {
-		throw new MiExcepcion("¡Esta es una excepción personalizada!");
+	//Excepcion declarada directamente en controlador sin pasar por el ControllerAdvice
+	//van seguidos junto el getmapping y el exceptionhandler
+	@GetMapping("/clientes/error2")
+	public String RunTimeErrorEnClientes2() throws MiExcepcion {
+		throw new MiExcepcion();
+	}
+	@ExceptionHandler
+	public  String miExcepcionDesdeController(Model model, MiExcepcion miExcepcion){
+		model.addAttribute("traza", ("lanzado desde el controller de Cliente"+miExcepcion.getMessage()));
+		return  "errores/error-mi-excepcion";
 	}
 
 }

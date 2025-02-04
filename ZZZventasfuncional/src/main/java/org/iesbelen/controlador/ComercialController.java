@@ -3,6 +3,7 @@ package org.iesbelen.controlador;
 import jakarta.validation.Valid;
 
 import org.iesbelen.dto.PedidoDTO;
+import org.iesbelen.exception.MiExcepcion;
 import org.iesbelen.modelo.Comercial;
 import org.iesbelen.service.ComercialService;
 import org.iesbelen.service.PedidoService;
@@ -108,6 +109,13 @@ public class ComercialController {
         comercialService.deleteComercial(id);
 
         return new RedirectView("/comerciales");
+    }
+
+    ///////////////////////////////////EXCEPCIONES
+    //Excepcion nuestra
+    @GetMapping("/comerciales/error")
+    public String lanzarMiExcepcion() throws MiExcepcion {
+        throw new MiExcepcion();
     }
 
 }

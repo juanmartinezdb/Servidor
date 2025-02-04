@@ -1,7 +1,8 @@
 package org.iesbelen.controlador;
 
-import ch.qos.logback.core.model.Model;
+
 import org.iesbelen.exception.MiExcepcion;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -9,22 +10,17 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 public class ExcepcionesController {
 
-    @ExceptionHandler
-    public String handleException(Model model, MiExcepcion ex) {
-        model.addAttribute("traza", ex.getMessage());
-        return "error-mi-excepcion";
-    }
-//    @ExceptionHandler(RuntimeException.class)
-//    public ModelAndView handleRuntimeException(RuntimeException e) {
-//        ModelAndView mv = new ModelAndView("error");
-//        mv.addObject("mensaje", e.getMessage());
-//        return mv;
-//    }
-
+    // Manejo de MiExcepcion (excepción personalizada)
     @ExceptionHandler(MiExcepcion.class)
-    public ModelAndView handleMiException(MiExcepcion e) {
-        ModelAndView mv = new ModelAndView("error");
-        mv.addObject("mensaje", e.getMessage());
-        return mv;
+    public String handleMiExcepcion(Model model, MiExcepcion e) { //aqui pongo la excepcion que he definido en exception
+        model.addAttribute("traza", e.getMessage());
+        return "errores/error-mi-excepcion"; // Página de error específica del error
+    }
+
+    // Manejo de RuntimeException (errores no chequeados)
+    @ExceptionHandler(RuntimeException.class)
+    public String handleRuntimeException(Model model, RuntimeException e) {
+        model.addAttribute("traza", e.getMessage());
+        return "errores/error"; // Página de error genérica
     }
 }

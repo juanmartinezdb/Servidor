@@ -46,8 +46,11 @@ public class PedidoService {
         return total;
     }
 
-    public BigDecimal porcentajePedidos(int total, int parcial) {
-        return BigDecimal.valueOf((parcial/total)*100);
+    public BigDecimal porcentajePedidos(int total, int id) {
+        int parcial = (int) pedidoDAO.findByComercialDTO(id).stream().count();
+        return BigDecimal.valueOf(parcial)
+                .multiply(BigDecimal.valueOf(100))
+                .divide(BigDecimal.valueOf(total), 2, BigDecimal.ROUND_HALF_UP);
     }
 
 }

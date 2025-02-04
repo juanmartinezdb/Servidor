@@ -1,7 +1,10 @@
 package org.iesbelen.exception;
 
 public class MiExcepcion extends Exception {
-    public MiExcepcion(String mensaje) {
-        super(mensaje);
+    private static final long serialVersionUID = 1L;
+
+    public MiExcepcion() {
+
+        super("Mensaje de mi excepcion...");
     }
 }

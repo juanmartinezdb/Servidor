@@ -20,7 +20,7 @@ public @interface RangoCategoriaPlus {
     int min() default 100;
     int max() default 1000;
 
-    String message() default "{error.rangocategoria.plus}";
+    String message() default "{error.rangocategoria.plus}";//hay que meterlo en lo de messages para la internacionalización
 
     Class<?>[] groups() default {};
 
