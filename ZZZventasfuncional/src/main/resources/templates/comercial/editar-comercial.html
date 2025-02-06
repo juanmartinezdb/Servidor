@@ -17,7 +17,10 @@
     </style>
 </head>
 <body>
-
+<nav>
+    <a th:href="@{/clientes}">Clientes</a> |
+    <a th:href="@{/comerciales}">Comerciales</a>
+</nav>
 <div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
     <form  th:action="@{/comerciales/editar/__${comercial.id}__}" th:object="${comercial}" method="post" >
         <div class="clearfix">

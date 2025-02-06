@@ -1,0 +1,107 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Detalle Cliente</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <style>
+    .clearfix::after {
+      content: "";
+      display: block;
+      clear: both;
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
+  <form  th:action="@{/clientes/editar/__${cliente.id}__}" th:object="${cliente}" method="post" >
+    <div class="clearfix">
+      <div style="float: left; width: 50%">
+        <h1>Editar Cliente</h1>
+      </div>
+      <div style="float: none;width: auto;overflow: hidden;min-height: 80px;position: relative;">
+
+        <div style="position: absolute; left: 39%; top : 39%;">
+          <input type="submit" value="Guardar" />
+        </div>
+
+      </div>
+    </div>
+
+    <div class="clearfix">
+      <hr/>
+    </div>
+
+
+    <div style="margin-top: 6px;" class="clearfix">
+      <div style="float: left;width: 50%">
+        <label>ID</label>
+      </div>
+      <div style="float: none;width: auto;overflow: hidden;">
+        <input th:field="*{id}" readonly="readonly"/>
+      </div>
+    </div>
+
+    <div style="margin-top: 6px;" class="clearfix">
+      <div style="float: left;width: 50%">
+        <label>Nombre</label>
+      </div>
+      <div style="float: none;width: auto;overflow: hidden;">
+        <input th:field="*{nombre}"/>
+      </div>
+    </div>
+
+    <div style="margin-top: 6px;" class="clearfix">
+      <div style="float: left;width: 50%">
+        <label>Apellido 1</label>
+      </div>
+      <div style="float: none;width: auto;overflow: hidden;">
+        <input th:field="*{apellido1}"/>
+      </div>
+    </div>
+
+    <div style="margin-top: 6px;" class="clearfix">
+      <div style="float: left;width: 50%">
+        <label>Apellido 2</label>
+      </div>
+      <div style="float: none;width: auto;overflow: hidden;">
+        <input th:field="*{apellido2}"/>
+      </div>
+    </div>
+
+    <div style="margin-top: 6px;" class="clearfix">
+      <div style="float: left;width: 50%">
+        <label>Ciudad</label>
+      </div>
+      <div style="float: none;width: auto;overflow: hidden;">
+        <input th:field="*{ciudad}"/>
+      </div>
+    </div>
+
+    <div style="margin-top: 6px;" class="clearfix">
+      <div style="float: left;width: 50%">
+        <label>Categoría</label>
+      </div>
+      <div style="float: none;width: auto;overflow: hidden;">
+        <input th:field="*{categoria}"/>
+      </div>
+    </div>
+
+    <div style="margin-top: 6px;" class="clearfix">
+      <div style="float: left;width: 50%">
+        <label>email</label>
+      </div>
+      <div style="float: none;width: auto;overflow: hidden;">
+        <input th:field="*{email}"/>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+</body>
+</html>

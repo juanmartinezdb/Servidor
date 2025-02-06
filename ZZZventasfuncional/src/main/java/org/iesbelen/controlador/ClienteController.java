@@ -91,7 +91,7 @@ public class ClienteController {
 		}
 		clienteService.replaceCliente(cliente);
 
-		return ("redirect: /clientes");
+		return ("redirect:/clientes");
 	}
 
 	@PostMapping("/clientes/borrar/{id}")

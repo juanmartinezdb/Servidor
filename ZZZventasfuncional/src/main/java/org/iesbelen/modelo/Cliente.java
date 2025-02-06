@@ -20,7 +20,7 @@ public class Cliente {
 	
 	private long id;
 
-	@NotBlank(message = "Por favor, introduzca nombre.")
+	@NotBlank(message = "Por favor, el campo no puede estar vacio.")
 //	@Size(min=4, message = "Nombre al menos de {min} caracter${max>1 ? 'es' : ''}. Ha introducido '${validatedValue}'.")
 //	@Size(max=10, message = "Nombre como máximo de {max} caracteres.")
 	@Size(max=30, message = "Nombre como máximo de 30 caracteres.")
