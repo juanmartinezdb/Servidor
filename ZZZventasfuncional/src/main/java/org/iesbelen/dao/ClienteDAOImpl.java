@@ -71,7 +71,7 @@ public class ClienteDAOImpl implements ClienteDAO {
 	public List<Cliente> getAll() {
 		
 		List<Cliente> listFab = jdbcTemplate.query(
-                "SELECT * FROM cliente",
+                "SELECT id, nombre, apellido1, apellido2, ciudad, categoría, email FROM cliente",
                 (rs, rowNum) -> new Cliente(rs.getInt("id"),
                 						 	rs.getString("nombre"),
                 						 	rs.getString("apellido1"),

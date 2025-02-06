@@ -26,7 +26,7 @@ public class ClienteController {
 	//@RequestMapping(value = "/clientes", method = RequestMethod.GET)
 	//equivalente a la siguiente anotación
 	
-	@GetMapping("/clientes") //Al no tener ruta base para el controlador, cada método tiene que tener la ruta completa
+	@GetMapping({"/clientes"}) //cundo se pone mas de una ruta se pone con {} como objeto
 	public String listar(Model model) {
 		
 		List<Cliente> listaClientes =  clienteService.listAll();
@@ -56,6 +56,16 @@ public class ClienteController {
 
 	}
 
+	@GetMapping("/clientes/editar/{id}")
+	public String editar(Model model, @PathVariable Integer id) {
+
+		Cliente cliente = clienteService.one(id);
+		model.addAttribute("cliente", cliente);
+
+		return "cliente/editar-cliente";
+
+	}
+
 	@PostMapping("/clientes/crear")
 	public String submitCrear(@Valid @ModelAttribute Cliente cliente, BindingResult bindingResulted, Model model) {
 
@@ -71,23 +81,17 @@ public class ClienteController {
 
 	}
 
-	@GetMapping("/clientes/editar/{id}")
-	public String editar(Model model, @PathVariable Integer id) {
-
-		Cliente cliente = clienteService.one(id);
-		model.addAttribute("cliente", cliente);
-
-		return "cliente/editar-cliente";
-
-	}
-
-
 	@PostMapping("/clientes/editar/{id}")
-	public RedirectView submitEditar(@ModelAttribute("cliente") Cliente cliente) {
+	public String submitEditar(@Valid @ModelAttribute Cliente cliente, BindingResult bindingResulted, Model model) {
+		if (bindingResulted.hasErrors()) {
+			model.addAttribute("cliente", cliente);
 
+			return "cliente/editar-cliente";
+
+		}
 		clienteService.replaceCliente(cliente);
 
-		return new RedirectView("/clientes");
+		return ("redirect: /clientes");
 	}
 
 	@PostMapping("/clientes/borrar/{id}")
@@ -110,6 +114,7 @@ public class ClienteController {
 	public String RunTimeErrorEnClientes2() throws MiExcepcion {
 		throw new MiExcepcion();
 	}
+
 	@ExceptionHandler
 	public  String miExcepcionDesdeController(Model model, MiExcepcion miExcepcion){
 		model.addAttribute("traza", ("lanzado desde el controller de Cliente"+miExcepcion.getMessage()));
