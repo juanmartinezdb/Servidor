@@ -5,6 +5,7 @@ import org.iesbelen.videoclub.domain.Pelicula;
 import org.iesbelen.videoclub.exception.CategoriaNotFoundException;
 import org.iesbelen.videoclub.repository.CategoriaCustomRepository;
 import org.iesbelen.videoclub.repository.CategoriaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,9 @@ import java.util.Optional;
 public class CategoriaService {
     private CategoriaRepository categoriaRepository;
     private CategoriaCustomRepository categoriaCustomRepository;
-    public CategoriaService(CategoriaRepository categoriaRepository) {
+
+
+    public CategoriaService(CategoriaRepository categoriaRepository, CategoriaCustomRepository categoriaCustomRepository) {
         this.categoriaRepository = categoriaRepository;
         this.categoriaCustomRepository = categoriaCustomRepository;
 

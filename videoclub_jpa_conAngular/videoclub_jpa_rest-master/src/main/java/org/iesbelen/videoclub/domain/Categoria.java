@@ -31,7 +31,7 @@ public class Categoria {
     @ManyToMany(
             mappedBy = "categorias")
     @ToString.Exclude
-//    @JsonIgnore
+    @JsonIgnore
     Set<Pelicula> peliculas = new HashSet<>();
 
 

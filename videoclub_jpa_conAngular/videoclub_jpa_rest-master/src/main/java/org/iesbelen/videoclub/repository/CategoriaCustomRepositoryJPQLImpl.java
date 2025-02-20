@@ -4,10 +4,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.iesbelen.videoclub.domain.Categoria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class CategoriaCustomRepositoryJPQLImpl implements CategoriaCustomRepository {
 
     @Autowired
@@ -18,7 +20,7 @@ public class CategoriaCustomRepositoryJPQLImpl implements CategoriaCustomReposit
     StringBuilder queryBuilder = new StringBuilder("SELECT C FROM Categoria C");
 
     if ( buscarOptional.isPresent()) {
-        queryBuilder.append(" ").append("WHERE C.nomber like : nombre");
+        queryBuilder.append(" ").append("WHERE C.nombre like : nombre");
     }
     if (ordenarOptional.isPresent()){
         if("asc".equalsIgnoreCase(ordenarOptional.get())){
