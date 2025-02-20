@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/videoclub_jpa_rest-master/videoclub.iml" filepath="$PROJECT_DIR$/videoclub_jpa_rest-master/videoclub.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/videoclub_jpa_conAngular.iml" filepath="$PROJECT_DIR$/.idea/videoclub_jpa_conAngular.iml" />
+    </modules>
+  </component>
+</project>
