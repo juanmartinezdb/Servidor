@@ -28,10 +28,9 @@ public class Categoria {
     @NaturalId
     private String nombre;
 
-    @ManyToMany(
-            mappedBy = "categorias")
+    @ManyToMany(mappedBy = "categorias")
     @ToString.Exclude
-    @JsonIgnore
+//    @JsonIgnore
     Set<Pelicula> peliculas = new HashSet<>();
 
 
