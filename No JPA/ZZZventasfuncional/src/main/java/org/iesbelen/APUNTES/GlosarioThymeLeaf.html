@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Glosario Thymeleaf</title>
+</head>
+<body>
+<h1>Glosario de Uso de Thymeleaf</h1>
+
+<!-- th:text: Sustituye el contenido de la etiqueta -->
+<p th:text="'Hola, mundo!'">Texto por defecto</p>
+
+<!-- th:utext: Permite HTML en el contenido -->
+<p th:utext="'Texto en <b>negrita</b>'"></p>
+
+<!-- th:attr: Modifica atributos de elementos HTML -->
+<a th:href="@{'https://ejemplo.com'}">Enlace</a>
+
+<!-- th:if / th:unless: Condiciones para mostrar elementos -->
+<p th:if="${esAdmin}">Bienvenido, administrador.</p>
+<p th:unless="${esAdmin}">Acceso restringido.</p>
+
+<!-- th:switch / th:case: Alternativas múltiples -->
+<div th:switch="${user.role}">
+  <p th:case="'admin'">Usuario administrador</p>
+  <p th:case="'user'">Usuario normal</p>
+  <p th:case="*">Rol desconocido</p>
+</div>
+
+<!-- th:each: Iteraciones sobre listas -->
+<ul>
+  <li th:each="producto : ${productos}" th:text="${producto.nombre}"></li>
+</ul>
+
+<!-- th:block: Agrupación sin renderizado -->
+<th:block th:each="producto : ${productos}">
+  <p th:text="${producto.nombre}"></p>
+</th:block>
+
+<!-- th:object y *{}: Acceso a atributos de objetos -->
+<div th:object="${libro}">
+  <p th:text="'Título: ' + *{titulo}"></p>
+  <p th:text="'Autor: ' + *{autor}"></p>
+</div>
+
+<!-- Fragmentos reutilizables -->
+<!-- Definición del fragmento en fragments/header.html -->
+<!--
+fragments/header.html:
+<div th:fragment="cabecera">
+    <h1>Mi Web</h1>
+</div>
+-->
+
+<!-- Referencia al fragmento desde la plantilla principal -->
+<header th:replace="fragments/header :: cabecera"></header>
+
+<!-- th:with: Definir variables dentro de un bloque -->
+<div th:with="precioFinal=${precio - descuento}">
+  <p>Precio con descuento: <span th:text="${precioFinal}"></span></p>
+</div>
+
+<!-- th:action y th:field: Formularios -->
+<form th:action="@{/guardar}" th:object="${usuario}" method="post">
+  <label>Nombre:</label>
+  <input type="text" th:field="*{nombre}" />
+  <button type="submit">Enviar</button>
+</form>
+
+<!-- th:class y operador ternario ?: -->
+<p th:class="${esAdmin} ? 'admin-class' : 'user-class'">Texto</p>
+
+<!-- Comentarios Thymeleaf -->
+<!--/* Este comentario no se verá en la versión renderizada */-->
+</body>
+</html>
