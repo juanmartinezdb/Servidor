@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -21,15 +22,38 @@ public class CategoriaController {
     public CategoriaController(CategoriaService categoriaService) {
         this.categoriaService = categoriaService;
     }
-    @GetMapping({"","/"})
-    public List<Categoria> all (){
-        log.info("Lista de categorias");
+
+
+    ///////////////////////////////////GETS///////////////////////////////////////////////
+    @GetMapping(value = {"", "/"}, params = {"!buscar", "!ordenar"})
+    public List<Categoria> all() {
+        log.info("Accediendo a todas las peliculas");
         return this.categoriaService.all();
     }
 
-    @PostMapping({"", "/"})
-    public Categoria newCategoria(@RequestBody Categoria categoria) {
-        return this.categoriaService.save(categoria);
+    @GetMapping(value = {"", "/"})
+    public List<Categoria> all(
+            @RequestParam("buscar") Optional<String> buscarOptional,
+            @RequestParam("ordenar") Optional<String> ordenarOptional) {
+
+        log.info("Accediendo a todas las categorias con filtro buscar: {} y ordenar: {}",
+                buscarOptional.orElse("VOID"),
+                ordenarOptional.orElse("VOID"));
+
+        return this.categoriaService.allByQueryFilters(buscarOptional, ordenarOptional);
+    }
+
+    @GetMapping("/{id}/numeroPeliculas")
+    public int getNumeroPeliculas(@PathVariable Long id) {
+        log.info("Accediendo a todas las peliculas");
+        return this.categoriaService.one(id).getPeliculas().size();
+
+    }
+
+    //    ESTO ESTA MAL ARREGLAR
+    @GetMapping("{id}/peliculas")
+    public List<Pelicula>  peliculas(@PathVariable Long id) {
+        return  this.categoriaService.peliculasByCategoria(id);
     }
 
     @GetMapping("{id}")
@@ -37,17 +61,23 @@ public class CategoriaController {
         return  this.categoriaService.one(id);
     }
 
+    ///////////////////////////////////POST/////////////////////////////////////////////
+
+    @PostMapping({"", "/"})
+    public Categoria newCategoria(@RequestBody Categoria categoria) {
+        return this.categoriaService.save(categoria);
+    }
+
+
+    ///////////////////////////////////PUT/////////////////////////////////////////////
     @PutMapping("/{id}")
     public Categoria replaceCategoria(@PathVariable("id") Long id, @RequestBody Categoria categoria) {
         return  this.categoriaService.replace(id, categoria);
     }
 
-//    ESTO ESTA MAL ARREGLAR
-@GetMapping("{id}/peliculas")
-        public List<Pelicula>  peliculas(@PathVariable Long id) {
-        return  this.categoriaService.peliculasByCategoria(id);
-}
 
+
+    ///////////////////////////////////DELETE/////////////////////////////////////////////
     @ResponseBody
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("{id}")
