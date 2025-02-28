@@ -3,6 +3,7 @@ package org.iesbelen.videoclub.service;
 import org.iesbelen.videoclub.domain.Categoria;
 import org.iesbelen.videoclub.exception.PeliculaNotFoundException;
 import org.iesbelen.videoclub.repository.CategoriaRepository;
+import org.iesbelen.videoclub.repository.PeliculaCustomRepository;
 import org.iesbelen.videoclub.repository.PeliculaRepository;
 import org.iesbelen.videoclub.domain.Pelicula;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,13 @@ public class PeliculaService {
     @Autowired
     private final CategoriaService categoriaService;
 
-    public PeliculaService(PeliculaRepository peliculaRepository, CategoriaService categoriaService) {
+    @Autowired
+    private final PeliculaCustomRepository peliculaCustomRepository;
+
+    public PeliculaService(PeliculaRepository peliculaRepository, CategoriaService categoriaService, PeliculaCustomRepository peliculaCustomRepository) {
         this.peliculaRepository = peliculaRepository;
         this.categoriaService = categoriaService;
+        this.peliculaCustomRepository = peliculaCustomRepository;
     }
 
     public List<Pelicula> all() {
@@ -61,6 +66,10 @@ public class PeliculaService {
         response.put("totalPages", pageAll.getTotalPages());
         response.put("totalElements", pageAll.getTotalElements());
         return response;
+    }
+
+    public List<Pelicula> allbyColumn(String[] orden) {
+        return peliculaCustomRepository.pelisOrdenadabyColSentido(Optional.of(orden));
     }
 
     public Pelicula save(Pelicula pelicula) {

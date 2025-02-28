@@ -27,23 +27,34 @@ public class PeliculaController {
 
     ///////////////////////////////////GET/////////////////////////////////////////////
 
-    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio"})
+    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio", "!paginado", "!orden"})
     public List<Pelicula> all() {
         log.info("Accediendo a todas las películas");
         return this.peliculaService.all();
     }
-//    @GetMapping(value = {"","/"})
-//    public ResponseEntity<Map<String, Object>> all(@RequestParam(value = "pagina", defaultValue = "0") int pagina
-//    ,@RequestParam(value= "tamanio", defaultValue = "2") int tamanio){
-//
-//        log.info("Accediendo a todas las películas con paginacion");
-//
-//
-//        Map<String, Object> responseAll = this.peliculaService.all(pagina, tamanio);
-//
-//        return ResponseEntity.ok(responseAll);
-//    }
-@GetMapping(value = {"","/"})
+    @GetMapping(value = {"","/"}, params = {"!paginado", "!orden"})
+    public ResponseEntity<Map<String, Object>> all(@RequestParam(value = "pagina", defaultValue = "0") int pagina
+    ,@RequestParam(value= "tamanio", defaultValue = "2") int tamanio){
+
+        log.info("Accediendo a todas las películas con paginacion");
+
+
+        Map<String, Object> responseAll = this.peliculaService.all(pagina, tamanio);
+
+        return ResponseEntity.ok(responseAll);
+    }
+
+    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio", "!paginado"})
+    public ResponseEntity<List<Pelicula>> allbyColumn(@RequestParam(value = "orden", required = false) String[] orden) {
+        log.info("Accediendo a todas las películas con ordenación: " + orden[0]);
+
+        List<Pelicula> peliculas = this.peliculaService.allbyColumn(orden);
+        return ResponseEntity.ok(peliculas);
+    }
+
+
+
+    @GetMapping(value = {"","/"}, params = {"!pagina", "!tamanio", "!orden"})
 public ResponseEntity<Map<String, Object>> all(@RequestParam(value = "paginado", defaultValue = "0") String[] paginacion) {
 
     log.info("Accediendo a todas las películas con paginacion");
