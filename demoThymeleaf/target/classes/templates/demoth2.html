@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p th:text ="${texto}"> prueba </p>
+<table >
+ <th:block th:each="libro : ${listaLibros}">
+    <tr>
+        <td th:text="${libro.getTitulo()}">Título</td>
+        <td th:text="${libro.getAutor()}">Autor</td>
+    </tr>
+    <tr>
+        <td colspan="2" th:text="${libro.getEditorial()}" style="background-color: red;color:
+                       yellow;">Editorial</td>
+      </th:block>
+</table>
+</body>
+</html>

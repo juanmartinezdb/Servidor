@@ -13,7 +13,9 @@ import java.util.Optional;
 
 @Service
 public class CategoriaService {
+    @Autowired
     private CategoriaRepository categoriaRepository;
+    @Autowired
     private CategoriaCustomRepository categoriaCustomRepository;
 
 

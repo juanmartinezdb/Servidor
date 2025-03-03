@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo 4</title>
+</head>
+<body>
+<div th:object="${libro}">
+    <span th:text="'Título: '+*{titulo}"></span>
+    <br/>
+    <span th:text="'Autor: '+*{autor}"></span>
+</div>
+</body>
+</html>

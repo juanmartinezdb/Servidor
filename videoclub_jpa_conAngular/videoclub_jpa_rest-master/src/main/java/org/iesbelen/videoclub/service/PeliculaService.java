@@ -13,10 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PeliculaService {
@@ -55,7 +52,9 @@ public class PeliculaService {
     }
 
     public Map<String, Object> all(String[] paginacion) {
-        Pageable paginado = PageRequest.of(Integer.parseInt(paginacion[0]),Integer.parseInt(paginacion[1]), Sort.by("idPelicula").ascending());
+        Pageable paginado = PageRequest.of(Integer.parseInt(paginacion[0]),
+                            Integer.parseInt(paginacion[1]),
+                            Sort.by("idPelicula").ascending());
 
         Page<Pelicula> pageAll = this.peliculaRepository.findAll(paginado);
 
@@ -71,6 +70,21 @@ public class PeliculaService {
     public List<Pelicula> allbyColumn(String[] orden) {
         return peliculaCustomRepository.pelisOrdenadabyColSentido(Optional.of(orden));
     }
+    public List<Pelicula> allbyColumn2(String[] orden) {
+        Sort sort = null;
+        if (orden != null && orden.length == 2) {
+                String columna = orden[0];
+                String sentido = orden[1];
+                if("asc".equalsIgnoreCase(sentido)){
+                    sort = Sort.by(columna).ascending();
+                } else {
+                    sort = Sort.by(columna).descending();
+                }
+        }
+    return peliculaRepository.findAll(sort);
+    }
+
+
 
     public Pelicula save(Pelicula pelicula) {
         return this.peliculaRepository.save(pelicula);
