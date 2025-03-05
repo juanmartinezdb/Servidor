@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
-//   ESTO ESTÁ MAL ARREGLAR
-    List<Pelicula> getByIdCategoria(long id);
+
+    List<Categoria> findByNombreContainingIgnoreCaseOrderByNombreAsc(String nombre);
+    List<Categoria> findByNombreContainingIgnoreCaseOrderByNombreDesc(String nombre);
+
 }

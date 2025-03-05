@@ -49,10 +49,17 @@ public class CategoriaService {
                 this.categoriaRepository.save(categoria): null))
                 .orElseThrow(() -> new CategoriaNotFoundException(id));
     }
-
-//    ESTO ESTA MAL ARREGLAR
-    public List<Pelicula> peliculasByCategoria(long id) {
-        return this.categoriaRepository.getByIdCategoria(id);
+    public List<Categoria> getByNombre(String [] busqueda) {
+        if (busqueda == null && busqueda.length!=2) {
+            return this.categoriaRepository.findAll();
+        }
+            String nombre = busqueda[0];
+            String orden = busqueda[1];
+            if ("asc".equals(orden)) {
+                return this.categoriaRepository.findByNombreContainingIgnoreCaseOrderByNombreAsc(nombre);
+            } else {
+                return this.categoriaRepository.findByNombreContainingIgnoreCaseOrderByNombreDesc(nombre);
+            }
     }
 
     public List<Categoria> allByQueryFilters(Optional<String> buscarOptional, Optional<String> ordenarOptional) {

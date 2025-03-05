@@ -67,9 +67,10 @@ public class PeliculaService {
         return response;
     }
 
-    public List<Pelicula> allbyColumn(String[] orden) {
-        return peliculaCustomRepository.pelisOrdenadabyColSentido(Optional.of(orden));
-    }
+//    public List<Pelicula> allbyColumn(String[] orden) {
+//        return peliculaCustomRepository.pelisOrdenadabyColSentido(Optional.of(orden));
+//    }
+
     public List<Pelicula> allbyColumn2(String[] orden) {
         Sort sort = null;
         if (orden != null && orden.length == 2) {

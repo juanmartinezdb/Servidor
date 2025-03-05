@@ -7,6 +7,7 @@ import org.iesbelen.videoclub.repository.CategoriaRepository;
 import org.iesbelen.videoclub.service.CategoriaService;
 import org.iesbelen.videoclub.service.PeliculaService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,13 +26,20 @@ public class CategoriaController {
 
 
     ///////////////////////////////////GETS///////////////////////////////////////////////
-    @GetMapping(value = {"", "/"}, params = {"!buscar", "!ordenar"})
+    @GetMapping(value = {"", "/"}, params = {"!buscar", "!ordenar !busqueda"})
     public List<Categoria> all() {
         log.info("Accediendo a todas las peliculas");
         return this.categoriaService.all();
     }
+    @GetMapping(value = {"/busqueda"}, params = {"!buscar", "!ordenar"})
+    public ResponseEntity<List<Categoria>> all(@RequestParam (value= "busqueda", required = false) String[] busqueda){
+        log.info("Accediendo a todas las peliculas por nombre y orden");
 
-    @GetMapping(value = {"", "/"})
+        List<Categoria> categrias = this.categoriaService.getByNombre(busqueda);
+        return ResponseEntity.ok(categrias);
+    }
+
+    @GetMapping(value = {"", "/"}, params={"!busqueda"})
     public List<Categoria> all(
             @RequestParam("buscar") Optional<String> buscarOptional,
             @RequestParam("ordenar") Optional<String> ordenarOptional) {
@@ -48,12 +56,6 @@ public class CategoriaController {
         log.info("Accediendo a todas las peliculas");
         return this.categoriaService.one(id).getPeliculas().size();
 
-    }
-
-    //    ESTO ESTA MAL ARREGLAR
-    @GetMapping("{id}/peliculas")
-    public List<Pelicula>  peliculas(@PathVariable Long id) {
-        return  this.categoriaService.peliculasByCategoria(id);
     }
 
     @GetMapping("{id}")
